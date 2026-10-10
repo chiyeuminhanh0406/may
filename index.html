@@ -1,0 +1,1505 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="May">
+<meta name="theme-color" content="#F5F1F3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#151114" media="(prefers-color-scheme: dark)">
+<meta name="format-detection" content="telephone=no">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+<style>html,body{margin:0}</style>
+<!--ART-START-->
+<title>May</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&display=swap">
+<style>
+/* Layout: one narrow column like a pocket diary; sticky top bar, fixed tab bar, bottom sheet for daily logs. */
+:root{
+  --bg:#F5F1F3; --surface:#FFFFFF; --sunk:#EEE7EB; --ink:#241A20; --ink-2:#54454D; --muted:#857580; --line:#E4DADF;
+  --period:#BE2F55; --period-soft:#F7DDE4; --fertile:#2F7F6F; --fertile-soft:#DCEEE9; --ovul:#B8730F; --ovul-soft:#F8E8CC;
+  --luteal:#6E5A9C; --luteal-soft:#E8E3F3; --warn:#A35F0A; --warn-soft:#FBEBD3; --ok:#2F7F4F; --ok-soft:#DDEFE3;
+  --c-e2:#C23A72; --c-p4:#3B6FB0; --c-lh:#B8730F; --c-t:#1F7A55;
+  --on-accent:#FFFFFF; --shadow:0 1px 2px rgba(60,20,40,.06),0 8px 24px rgba(60,20,40,.06);
+  --f-display:"Bricolage Grotesque","Be Vietnam Pro",ui-sans-serif,system-ui,sans-serif;
+  --f-body:"Be Vietnam Pro",-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --r-s:8px; --r-m:14px; --r-l:22px;
+  --tab-h:58px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#151114; --surface:#201A1E; --sunk:#2B2329; --ink:#F2EAEE; --ink-2:#CDBFC6; --muted:#9C8C95; --line:#372D34;
+  --period:#F0668A; --period-soft:#45202C; --fertile:#5CC2AA; --fertile-soft:#173530; --ovul:#E8A33D; --ovul-soft:#3A2A12;
+  --luteal:#A996DA; --luteal-soft:#2A2440; --warn:#E8A33D; --warn-soft:#3A2A12; --ok:#6CC08A; --ok-soft:#18321F;
+  --c-e2:#D85C8E; --c-p4:#6493D4; --c-lh:#BD8024; --c-t:#3E9C78;
+  --on-accent:#1A1014; --shadow:0 1px 2px rgba(0,0,0,.3); color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#151114; --surface:#201A1E; --sunk:#2B2329; --ink:#F2EAEE; --ink-2:#CDBFC6; --muted:#9C8C95; --line:#372D34;
+  --period:#F0668A; --period-soft:#45202C; --fertile:#5CC2AA; --fertile-soft:#173530; --ovul:#E8A33D; --ovul-soft:#3A2A12;
+  --luteal:#A996DA; --luteal-soft:#2A2440; --warn:#E8A33D; --warn-soft:#3A2A12; --ok:#6CC08A; --ok-soft:#18321F;
+  --c-e2:#D85C8E; --c-p4:#6493D4; --c-lh:#BD8024; --c-t:#3E9C78;
+  --on-accent:#1A1014; --shadow:0 1px 2px rgba(0,0,0,.3); color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;background:var(--bg)}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;min-height:100%}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:2px solid var(--period);outline-offset:2px}
+h1,h2,h3{margin:0;text-wrap:balance}
+p{margin:0}
+
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);display:flex;align-items:center;justify-content:space-between;padding:12px 16px 10px;max-width:560px;margin:0 auto}
+.brand{font-family:var(--f-display);font-weight:800;font-size:26px;letter-spacing:-.03em;line-height:1;display:flex;align-items:baseline;gap:6px}
+.brand i{font-style:normal;width:8px;height:8px;border-radius:50%;background:var(--period);display:inline-block;transform:translateY(-2px)}
+.topdate{font-size:13px;color:var(--muted);text-align:right}
+
+main{max-width:560px;margin:0 auto;padding-inline:16px;padding-block:4px calc(var(--tab-h) + env(safe-area-inset-bottom,0px) + 28px)}
+.view{display:flex;flex-direction:column;gap:22px}
+
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+.tabbar nav{max-width:560px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);height:var(--tab-h)}
+.tab{border:0;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11px;font-weight:500;color:var(--muted)}
+.tab svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.tab[aria-current="page"]{color:var(--ink)}
+.tab[aria-current="page"] svg{stroke:var(--period)}
+
+.label{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:10px}
+.sec-h h2{font-family:var(--f-display);font-size:19px;font-weight:700;letter-spacing:-.01em}
+.sec-h .aside{font-size:13px;color:var(--muted)}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+
+/* hero */
+.hero{display:grid;grid-template-columns:auto 1fr;gap:4px 18px;align-items:end;padding-top:6px}
+.hero .cd{font-family:var(--f-display);font-weight:800;font-size:88px;line-height:.82;letter-spacing:-.05em;font-variant-numeric:tabular-nums}
+.hero .cd small{display:block;font-family:var(--f-body);font-size:13px;font-weight:500;letter-spacing:0;color:var(--muted);margin-bottom:10px;line-height:1}
+.hero .meta{display:flex;flex-direction:column;gap:6px;padding-bottom:2px;min-width:0}
+.chip-phase{align-self:flex-start;display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;padding:4px 10px 4px 8px;border-radius:999px;background:var(--tone-soft);color:var(--ink)}
+.chip-phase::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--tone)}
+.hero .countdown{font-size:16px;font-weight:500;line-height:1.35}
+.hero .countdown b{font-weight:700}
+
+.t-period{--tone:var(--period);--tone-soft:var(--period-soft)}
+.t-foll{--tone:var(--fertile);--tone-soft:var(--fertile-soft)}
+.t-fert{--tone:var(--fertile);--tone-soft:var(--fertile-soft)}
+.t-ov{--tone:var(--ovul);--tone-soft:var(--ovul-soft)}
+.t-lut{--tone:var(--luteal);--tone-soft:var(--luteal-soft)}
+.t-pms{--tone:var(--luteal);--tone-soft:var(--luteal-soft)}
+.t-late{--tone:var(--warn);--tone-soft:var(--warn-soft)}
+
+/* ruler */
+.ruler{margin-top:16px}
+.ruler-track{display:flex;gap:2px;align-items:flex-end;height:34px}
+.rd{flex:1;height:16px;border-radius:2px;background:var(--sunk);position:relative;min-width:0}
+.rd.p{background:var(--period)}
+.rd.pp{background:transparent;box-shadow:inset 0 0 0 1.5px var(--period)}
+.rd.f{background:var(--fertile-soft);box-shadow:inset 0 -3px 0 var(--fertile)}
+.rd.o{background:var(--ovul);height:26px}
+.rd.past{opacity:.55}
+.rd.today{height:34px;background:var(--ink);opacity:1}
+.ruler-scale{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:6px;font-variant-numeric:tabular-nums}
+
+/* note from him */
+.note{background:var(--tone-soft);border-radius:4px var(--r-l) var(--r-l) var(--r-l);padding:18px 18px 16px;position:relative}
+.note .from{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.note .from svg{width:15px;height:15px;fill:var(--tone)}
+.note .msg{font-size:17px;line-height:1.55;font-weight:500}
+.note .extra{margin-top:10px;font-size:15px;color:var(--ink-2);display:flex;flex-direction:column;gap:6px}
+.note .sign{margin-top:12px;text-align:right;font-family:var(--f-display);font-weight:600;font-size:15px;color:var(--ink-2)}
+
+.note .trans{display:flex;flex-direction:column;gap:6px;font-size:15.5px;font-weight:600;line-height:1.5;padding-bottom:12px;margin-bottom:12px;border-bottom:1px solid var(--tone)}
+.note .trans span{align-self:flex-start;font-size:11.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--on-accent);background:var(--tone);border-radius:6px;padding:2px 7px}
+.linkish{border:0;background:none;padding:2px 0;color:var(--ink-2);font-size:14px;text-decoration:underline;text-underline-offset:3px;text-align:left;margin-top:-10px}
+.pick{background:var(--surface);border-radius:var(--r-m);box-shadow:var(--shadow);padding:12px 14px;display:flex;flex-direction:column;gap:8px;margin-top:-8px}
+.pick label{font-size:13px;font-weight:600;color:var(--ink-2)}
+.pick-row{display:flex;gap:8px;align-items:center}
+.pick-row input{flex:1;min-width:0;border:0;background:var(--sunk);border-radius:10px;padding:9px 12px;font-size:16px;min-height:42px;-webkit-appearance:none;appearance:none}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{border:0;border-radius:var(--r-m);padding:13px 14px;font-weight:600;font-size:15px;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;text-align:center;line-height:1.25}
+.btn-primary{background:var(--period);color:var(--on-accent)}
+.btn-ink{background:var(--ink);color:var(--bg)}
+.btn-ghost{background:var(--surface);color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}
+.btn-soft{background:var(--sunk);color:var(--ink)}
+.btn-danger{background:var(--period-soft);color:var(--period)}
+.btn-small{min-height:36px;padding:7px 12px;font-size:14px;border-radius:10px}
+.btn:active{transform:scale(.98)}
+.btn[disabled]{opacity:.45}
+
+/* facts */
+.facts{background:var(--surface);border-radius:var(--r-m);box-shadow:var(--shadow);padding:2px 16px}
+.fact{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:13px 0;border-bottom:1px solid var(--line)}
+.fact:last-child{border-bottom:0}
+.fact .k{display:flex;align-items:center;gap:10px;color:var(--ink-2);font-size:14px}
+.fact .k i{width:10px;height:10px;border-radius:50%;flex:none}
+.fact .v{font-weight:600;text-align:right;font-variant-numeric:tabular-nums}
+.fact .v small{display:block;font-weight:400;font-size:12px;color:var(--muted)}
+
+/* hormone chart */
+.hormone-card{background:var(--surface);border-radius:var(--r-m);box-shadow:var(--shadow);padding:14px 14px 16px}
+.chart-wrap{position:relative;touch-action:pan-y}
+.chart-wrap svg{display:block;width:100%;height:auto;overflow:visible}
+.legend{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.lg{border:0;background:var(--sunk);border-radius:999px;padding:5px 10px 5px 8px;font-size:12.5px;font-weight:500;display:inline-flex;align-items:center;gap:6px;color:var(--ink)}
+.lg i{width:14px;height:3px;border-radius:2px;background:var(--c)}
+.lg[aria-pressed="false"]{opacity:.45}
+.lg[aria-pressed="false"] i{background:var(--muted)}
+.readout{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.ro{display:flex;flex-direction:column;min-width:0}
+.ro .n{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.ro .n i{width:8px;height:8px;border-radius:50%;background:var(--c)}
+.ro .s{font-weight:600;font-size:14px}
+.ro .s span{font-weight:400;color:var(--ink-2)}
+.ro-day{grid-column:1/-1;font-size:13px;color:var(--ink-2)}
+.phase-body{margin-top:12px;font-size:14.5px;color:var(--ink-2);line-height:1.6}
+
+.tips{display:flex;flex-direction:column;gap:0}
+.tip{display:grid;grid-template-columns:22px 1fr;gap:10px;padding:10px 0;border-bottom:1px dashed var(--line);font-size:15px}
+.tip:last-child{border-bottom:0}
+.tip svg{width:18px;height:18px;margin-top:2px;stroke:var(--tone);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+.logsum{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:13px;padding:4px 10px;border-radius:999px;background:var(--sunk);color:var(--ink-2)}
+.tag.p{background:var(--period-soft);color:var(--period);font-weight:600}
+
+.banner{display:flex;gap:12px;align-items:center;justify-content:space-between;background:var(--warn-soft);border-radius:var(--r-m);padding:10px 12px 10px 14px;font-size:13.5px}
+.banner .btn{flex:none}
+
+/* calendar */
+.cal-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.cal-head h2{font-family:var(--f-display);font-size:24px;font-weight:700;letter-spacing:-.02em}
+.cal-nav{display:flex;gap:6px}
+.icon-btn{width:40px;height:40px;border-radius:12px;border:0;background:var(--surface);box-shadow:inset 0 0 0 1px var(--line);display:grid;place-items:center}
+.icon-btn svg{width:18px;height:18px;stroke:var(--ink);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.wk,.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px 2px}
+.wk{font-size:11.5px;font-weight:600;color:var(--muted);text-align:center;margin-bottom:6px}
+.day{position:relative;border:0;background:none;aspect-ratio:1/1.08;max-width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0;border-radius:12px;font-variant-numeric:tabular-nums}
+.day .dn{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-size:15px;font-weight:500;position:relative}
+.day.out{opacity:.28}
+.day.fert .dn{background:var(--fertile-soft);color:var(--ink)}
+.day.ov .dn{box-shadow:inset 0 0 0 2px var(--ovul);background:var(--ovul-soft)}
+.day.pred .dn{outline:1.5px dashed var(--period);outline-offset:-1.5px;box-shadow:none;background:transparent}
+.day.per .dn{background:var(--period);color:var(--on-accent);font-weight:600}
+.day.per.light .dn{background:var(--period-soft);color:var(--period)}
+.day.spot .dn::after{content:"";position:absolute;top:3px;right:5px;width:5px;height:5px;border-radius:50%;background:var(--period)}
+.day.today .dn{font-weight:800}
+.day.today::after{content:"";position:absolute;bottom:1px;width:14px;height:2px;border-radius:2px;background:var(--ink)}
+.day .dot{position:absolute;bottom:5px;width:4px;height:4px;border-radius:50%;background:var(--muted)}
+.day.today .dot{bottom:6px}
+.day.sel{background:var(--sunk)}
+.day.future .dn{color:var(--muted)}
+.day.future.per .dn,.day.future.pred .dn{color:inherit}
+.day.future.pred .dn{color:var(--period)}
+.editing .day:not(.out):not(.future) .dn{box-shadow:inset 0 0 0 1px var(--line)}
+.editing .day.per .dn{box-shadow:none}
+.cal-legend{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:12.5px;color:var(--ink-2)}
+.cal-legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:14px;height:14px;border-radius:50%;display:inline-block}
+.sw.per{background:var(--period)}
+.sw.pred{outline:1.5px dashed var(--period);outline-offset:-1.5px}
+.sw.fert{background:var(--fertile-soft);box-shadow:inset 0 0 0 1px var(--fertile)}
+.sw.ov{background:var(--ovul-soft);box-shadow:inset 0 0 0 2px var(--ovul)}
+.sel-panel{background:var(--surface);border-radius:var(--r-m);box-shadow:var(--shadow);padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.sel-panel h3{font-family:var(--f-display);font-size:18px;font-weight:700}
+.edit-hint{background:var(--period-soft);color:var(--ink);border-radius:var(--r-m);padding:10px 12px;font-size:14px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+
+/* insights */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{background:var(--surface);border-radius:var(--r-m);box-shadow:var(--shadow);padding:12px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.stat .big{font-family:var(--f-display);font-weight:800;font-size:30px;letter-spacing:-.03em;line-height:1.05;font-variant-numeric:tabular-nums}
+.stat .big small{font-family:var(--f-body);font-size:13px;font-weight:500;letter-spacing:0;color:var(--muted);margin-left:2px}
+.stat .cap{font-size:12px;color:var(--muted);line-height:1.3}
+.flag{display:grid;grid-template-columns:24px 1fr;gap:10px;padding:12px 14px;border-radius:var(--r-m);background:var(--warn-soft)}
+.flag.ok{background:var(--ok-soft)}
+.flag svg{width:20px;height:20px;stroke:var(--warn);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;margin-top:1px}
+.flag.ok svg{stroke:var(--ok)}
+.flag b{display:block;font-weight:600}
+.flag p{font-size:14px;color:var(--ink-2)}
+.flags{display:flex;flex-direction:column;gap:8px}
+.hist{display:flex;flex-direction:column;gap:10px}
+.hrow{display:grid;grid-template-columns:62px 1fr 34px;gap:10px;align-items:center;font-size:13px;font-variant-numeric:tabular-nums}
+.hrow .d{color:var(--ink-2)}
+.hrow .len{text-align:right;font-weight:600}
+.hbar{display:flex;gap:2px;height:14px}
+.hbar i{flex:1;border-radius:2px;background:var(--sunk);min-width:0}
+.hbar i.p{background:var(--period)}
+.hbar i.o{background:var(--ovul)}
+.hbar i.cur{background:var(--line)}
+.hbar i.gap{background:transparent}
+.pattern{background:var(--surface);border-radius:var(--r-m);box-shadow:var(--shadow);padding:4px 16px}
+.prow{padding:12px 0;border-bottom:1px solid var(--line)}
+.prow:last-child{border-bottom:0}
+.prow .ph{display:flex;align-items:center;gap:8px;font-weight:600;margin-bottom:6px}
+.prow .ph i{width:8px;height:8px;border-radius:50%;background:var(--tone)}
+.pbar{display:grid;grid-template-columns:1fr 90px 38px;gap:8px;align-items:center;font-size:13.5px;padding:3px 0}
+.pbar .track{height:6px;border-radius:3px;background:var(--sunk);overflow:hidden}
+.pbar .track b{display:block;height:100%;border-radius:3px;background:var(--tone)}
+.pbar .pc{text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
+details.learn{background:var(--surface);border-radius:var(--r-m);box-shadow:var(--shadow);padding:0 16px}
+details.learn+details.learn{margin-top:8px}
+details.learn summary{list-style:none;padding:14px 0;font-weight:600;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer}
+details.learn summary::-webkit-details-marker{display:none}
+details.learn summary::after{content:"+";font-size:20px;font-weight:400;color:var(--muted);line-height:1}
+details.learn[open] summary::after{content:"–"}
+details.learn .body{padding-bottom:16px;color:var(--ink-2);font-size:14.5px;line-height:1.65;display:flex;flex-direction:column;gap:8px}
+.learn-stack{display:flex;flex-direction:column}
+
+/* settings */
+.group{background:var(--surface);border-radius:var(--r-m);box-shadow:var(--shadow);padding:4px 16px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);min-height:56px}
+.row:last-child{border-bottom:0}
+.row .rl{min-width:0}
+.row .rl small{display:block;font-size:12.5px;color:var(--muted);line-height:1.35}
+.txt{border:0;background:var(--sunk);border-radius:10px;padding:9px 12px;width:130px;font-size:16px;text-align:right}
+.stepper{display:flex;align-items:center;gap:4px;flex:none}
+.stepper button{width:34px;height:34px;border-radius:10px;border:0;background:var(--sunk);font-size:18px;font-weight:600;line-height:1}
+.stepper output{min-width:34px;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
+.seg{display:flex;background:var(--sunk);border-radius:12px;padding:3px;gap:2px;flex-wrap:wrap}
+.seg button{flex:1;border:0;background:none;border-radius:9px;padding:8px 8px;font-size:13.5px;font-weight:500;min-width:0;color:var(--ink-2)}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.stack{display:flex;flex-direction:column;gap:10px}
+.btn-row{display:flex;flex-wrap:wrap;gap:8px}
+.btn-row .btn{flex:1 1 140px}
+.confirm{background:var(--period-soft);border-radius:var(--r-m);padding:12px 14px;display:flex;flex-direction:column;gap:10px;font-size:14px}
+textarea.paste{width:100%;min-height:90px;border:0;border-radius:10px;background:var(--sunk);padding:10px;font-size:13px;font-family:ui-monospace,Menlo,monospace}
+.about{font-size:14px;color:var(--ink-2);line-height:1.6;display:flex;flex-direction:column;gap:8px}
+.about a{color:var(--ink)}
+
+/* onboarding */
+.onb{display:flex;flex-direction:column;gap:18px;padding-top:8px}
+.onb h1{font-family:var(--f-display);font-weight:800;font-size:40px;line-height:1;letter-spacing:-.04em}
+.onb .lead{font-size:16px;color:var(--ink-2)}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:13px;font-weight:600;color:var(--ink-2)}
+.field input[type="date"],.field input[type="text"]{border:0;background:var(--surface);box-shadow:inset 0 0 0 1px var(--line);border-radius:12px;padding:12px 14px;font-size:16px;width:100%;min-height:48px;-webkit-appearance:none;appearance:none}
+
+/* sheet */
+.scrim{position:fixed;inset:0;background:rgba(20,10,15,.42);z-index:40;opacity:0;transition:opacity .2s}
+.scrim.on{opacity:1}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:41;background:var(--bg);border-radius:22px 22px 0 0;max-height:92%;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .26s cubic-bezier(.2,.8,.2,1);max-width:560px;margin:0 auto}
+.sheet.on{transform:none}
+.sheet-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 16px 10px;border-bottom:1px solid var(--line)}
+.sheet-head h2{font-family:var(--f-display);font-size:20px;font-weight:700}
+.sheet-head small{display:block;color:var(--muted);font-size:12.5px;font-weight:400;font-family:var(--f-body)}
+.grab{width:38px;height:4px;border-radius:2px;background:var(--line);margin:8px auto 0}
+.sheet-body{overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px 16px calc(24px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:20px}
+.blk h3{font-size:13px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{border:0;background:var(--surface);box-shadow:inset 0 0 0 1px var(--line);border-radius:999px;padding:8px 13px;font-size:14px;font-weight:500;color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);box-shadow:none}
+.flow .chip[aria-pressed="true"]{background:var(--period);color:var(--on-accent)}
+.temp{display:flex;align-items:center;gap:10px}
+.temp input{border:0;background:var(--surface);box-shadow:inset 0 0 0 1px var(--line);border-radius:12px;padding:10px 12px;font-size:16px;width:110px;font-variant-numeric:tabular-nums}
+.note-in{width:100%;min-height:80px;border:0;background:var(--surface);box-shadow:inset 0 0 0 1px var(--line);border-radius:12px;padding:10px 12px;font-size:16px;resize:vertical}
+
+.toast{position:fixed;left:50%;bottom:calc(var(--tab-h) + env(safe-area-inset-bottom,0px) + 14px);transform:translate(-50%,20px);opacity:0;z-index:60;background:var(--ink);color:var(--bg);padding:10px 12px 10px 16px;border-radius:14px;font-size:14px;display:flex;align-items:center;gap:12px;transition:.2s;pointer-events:none;width:max-content;max-width:calc(100% - 32px)}
+.toast.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.toast button{border:0;background:none;color:var(--bg);font-weight:700;text-decoration:underline;padding:4px}
+
+@media (max-width:370px){.hero .cd{font-size:72px}.stat .big{font-size:24px}.txt{width:110px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">May<i></i></div>
+  <div class="topdate" id="topdate"></div>
+</header>
+<main id="app"></main>
+<div class="tabbar"><nav aria-label="Điều hướng">
+  <button class="tab" data-tab="today"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v4M12 12l3 2"/></svg>Hôm nay</button>
+  <button class="tab" data-tab="cal"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>Lịch</button>
+  <button class="tab" data-tab="insight"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M21 20H3"/></svg>Nhìn lại</button>
+  <button class="tab" data-tab="settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1V21a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-2.7-1.1l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.6 1.6 0 0 0 3.6 14H3.5a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.1-2.7l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A1.6 1.6 0 0 0 10 3.6V3.5a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 2.7 1.1l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0 1.1 2.7h.1a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.3.8z"/></svg>Cài đặt</button>
+</nav></div>
+<div class="scrim" id="scrim" hidden></div>
+<section class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" hidden></section>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- storage ---------- */
+const STORE_KEY = "may.v1";
+const DEFAULTS = () => ({ v:1, profile:{ her:"vợ", him:"anh", cycleLen:28, periodLen:5, luteal:14, goal:"track" }, days:{}, lastBackup:null, sample:false });
+let S = load();
+function load(){
+  try{
+    const raw = localStorage.getItem(STORE_KEY);
+    if(raw){ const d = JSON.parse(raw); const base = DEFAULTS(); return { ...base, ...d, profile:{ ...base.profile, ...(d.profile||{}) }, days:d.days||{} }; }
+  }catch(e){}
+  return DEFAULTS();
+}
+function save(){
+  try{ localStorage.setItem(STORE_KEY, JSON.stringify(S)); }catch(e){ toast("Không lưu được. Hãy kiểm tra Safari có đang ở chế độ riêng tư không."); }
+}
+try{ if(navigator.storage && navigator.storage.persist) navigator.storage.persist(); }catch(e){}
+
+/* ---------- dates ---------- */
+const pad = n => String(n).padStart(2,"0");
+const keyOf = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const parse = k => { const [y,m,d] = k.split("-").map(Number); return new Date(y,m-1,d); };
+const utc = k => { const [y,m,d] = k.split("-").map(Number); return Date.UTC(y,m-1,d); };
+const diff = (a,b) => Math.round((utc(b)-utc(a))/864e5);          // b - a, in days
+const addDays = (k,n) => { const d = parse(k); d.setDate(d.getDate()+n); return keyOf(d); };
+const todayKey = () => keyOf(new Date());
+const WD = ["Chủ Nhật","Thứ Hai","Thứ Ba","Thứ Tư","Thứ Năm","Thứ Sáu","Thứ Bảy"];
+const dm = k => { const d = parse(k); return `${d.getDate()}/${d.getMonth()+1}`; };
+const longDate = k => { const d = parse(k); return `${WD[d.getDay()]}, ${d.getDate()} tháng ${d.getMonth()+1}`; };
+const relDays = n => n===0 ? "hôm nay" : n===1 ? "ngày mai" : n===-1 ? "hôm qua" : n>0 ? `còn ${n} ngày` : `${-n} ngày trước`;
+
+/* ---------- vocab ---------- */
+const FLOW = [[0,"Không"],[1,"Ít"],[2,"Vừa"],[3,"Nhiều"]];
+const SYM = [["dau-bung","Đau bụng"],["dau-lung","Đau lưng"],["dau-dau","Đau đầu"],["cang-nguc","Căng ngực"],["day-hoi","Đầy hơi"],["mun","Nổi mụn"],["met","Mệt mỏi"],["them-an","Thèm ăn"],["them-ngot","Thèm đồ ngọt"],["buon-non","Buồn nôn"],["mat-ngu","Khó ngủ"],["dau-giua-ky","Đau nhói giữa kỳ"]];
+const MOOD = [["vui","Vui vẻ"],["binh-yen","Bình yên"],["hung-khoi","Hưng phấn"],["muon-cung","Muốn được cưng"],["nhay-cam","Nhạy cảm"],["cau","Cáu gắt"],["buon","Buồn"],["lo","Lo lắng"],["de-khoc","Dễ khóc"]];
+const ENERGY = [["thap","Thấp"],["vua","Bình thường"],["cao","Cao"]];
+const DISCH = [["kho","Khô"],["dinh","Dính"],["kem","Như kem"],["long-trang","Trong, dai"],["nuoc","Loãng"]];
+const LH = [["am","Âm tính"],["duong","Dương tính"]];
+const SEX = [["bv","Có bảo vệ"],["kbv","Không bảo vệ"]];
+const LABEL = Object.fromEntries([...SYM,...MOOD,...DISCH]);
+
+/* ---------- helpers ---------- */
+const esc = s => String(s==null?"":s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+const cap = s => s ? s.charAt(0).toUpperCase()+s.slice(1) : s;
+const $ = (sel,root=document) => root.querySelector(sel);
+const $$ = (sel,root=document) => Array.from(root.querySelectorAll(sel));
+function hash(str){ let h = 2166136261; for(const ch of str){ h ^= ch.codePointAt(0); h = Math.imul(h,16777619); } return h>>>0; }
+const pick = (arr,seed) => arr[hash(seed) % arr.length];
+function fill(t, n){
+  const her = (S.profile.her||"vợ").trim(), him = (S.profile.him||"anh").trim();
+  return t.replace(/\{V\}/g,esc(cap(her))).replace(/\{v\}/g,esc(her)).replace(/\{A\}/g,esc(cap(him))).replace(/\{a\}/g,esc(him)).replace(/\{n\}/g,n);
+}
+const dayLog = k => S.days[k] || null;
+function hasLog(d){ return d && ((d.flow>0)||d.spot||(d.sym&&d.sym.length)||(d.mood&&d.mood.length)||d.energy||d.disch||d.temp||d.lh||d.sex||(d.note&&d.note.trim())); }
+
+/* ---------- cycle engine ---------- */
+function episodes(){
+  const ks = Object.keys(S.days).filter(k => S.days[k].flow > 0).sort();
+  const eps = []; let cur = null;
+  for(const k of ks){
+    if(cur && diff(cur.end,k) <= 2){ cur.end = k; }
+    else { cur = { start:k, end:k }; eps.push(cur); }
+  }
+  eps.forEach(e => e.len = diff(e.start,e.end)+1);
+  return eps;
+}
+// Ovulation from data: BBT 3-over-6 rule first, then a positive LH test.
+function detectOv(start, end){
+  const temps = [];
+  for(let k = start; k <= end; k = addDays(k,1)){ const d = S.days[k]; if(d && d.temp) temps.push({ k, t:+d.temp }); }
+  for(let i = 6; i + 2 < temps.length; i++){
+    const base = Math.max(...temps.slice(i-6,i).map(x=>x.t));
+    const three = temps.slice(i,i+3);
+    if(three.every(x => x.t > base + 0.05) && three.some(x => x.t >= base + 0.2)) return { k:addDays(temps[i].k,-1), by:"temp" };
+  }
+  let lhKey = null;
+  for(let k = start; k <= end; k = addDays(k,1)){ const d = S.days[k]; if(d && d.lh === "duong") lhKey = lhKey || k; }
+  if(lhKey) return { k:addDays(lhKey,1), by:"lh" };
+  return null;
+}
+function model(){
+  const T = todayKey(), P = S.profile;
+  const all = episodes();
+  const eps = all.filter(e => e.start <= T);
+  const cycles = [];
+  for(let i = 0; i + 1 < eps.length; i++){
+    const len = diff(eps[i].start, eps[i+1].start);
+    const ov = detectOv(eps[i].start, addDays(eps[i+1].start,-1));
+    cycles.push({ start:eps[i].start, next:eps[i+1].start, len, per:eps[i].len, ov });
+  }
+  const valid = cycles.filter(c => c.len >= 15 && c.len <= 60).slice(-6);
+  let avgLen = P.cycleLen;
+  if(valid.length){ let w = 0, s = 0; valid.forEach((c,i) => { const wt = i+1; w += wt; s += c.len*wt; }); avgLen = Math.round(s/w); }
+  const perLens = eps.filter(e => e.end < T || eps.length === 1 || e !== eps[eps.length-1]).map(e => e.len).filter(n => n <= 12).slice(-6);
+  const avgPer = perLens.length ? Math.round(perLens.reduce((a,b)=>a+b,0)/perLens.length) : P.periodLen;
+  const lutLearn = cycles.filter(c => c.ov).map(c => diff(c.ov.k, c.next)).filter(n => n >= 9 && n <= 18);
+  const luteal = lutLearn.length >= 2 ? Math.round(lutLearn.reduce((a,b)=>a+b,0)/lutLearn.length) : P.luteal;
+  const lens = valid.map(c => c.len);
+  const variation = lens.length >= 3 ? Math.max(...lens) - Math.min(...lens) : null;
+  const base = { T, eps, cycles, valid, avgLen, avgPer, luteal, variation, learnedLuteal: lutLearn.length >= 2 };
+  if(!eps.length) return { ...base, empty:true };
+  const last = eps[eps.length-1];
+  const cd = diff(last.start, T) + 1;
+  const nextStart = addDays(last.start, avgLen);
+  const det = detectOv(last.start, T);
+  let ovKey = det ? det.k : addDays(nextStart, -luteal);
+  if(ovKey <= last.end) ovKey = addDays(last.end, 1);
+  const inPeriod = T >= last.start && T <= last.end;
+  const toNext = diff(T, nextStart);
+  const m = { ...base, empty:false, last, start:last.start, end:last.end, cd, nextStart, ovKey, ovBy:det ? det.by : null,
+    fertStart:addDays(ovKey,-5), fertEnd:addDays(ovKey,1), inPeriod, toNext, ovCd:diff(last.start,ovKey)+1 };
+  m.phase = phaseOf(T, m);
+  m.irregular = variation != null && variation > 9;
+  return m;
+}
+function phaseOf(k, m){
+  const cd = diff(m.start,k) + 1, toNext = diff(k, m.nextStart);
+  if(k >= m.start && k <= m.end) return cd <= 2 ? "men1" : "men2";
+  if(toNext < 0) return "late";
+  if(k === m.ovKey) return "ov";
+  if(k >= m.fertStart && k <= m.fertEnd) return "fert";
+  if(k < m.fertStart) return "foll";
+  if(toNext <= 5) return "pms";
+  if(cd <= m.ovCd + 6) return "lut1";
+  return "lut2";
+}
+const GROUP = { men1:"men", men2:"men", foll:"foll", fert:"fert", ov:"fert", lut1:"lut", lut2:"lut", pms:"pms", late:"pms" };
+const GROUP_NAME = { men:"Những ngày hành kinh", foll:"Sau kỳ kinh", fert:"Quanh ngày rụng trứng", lut:"Sau rụng trứng", pms:"5 ngày trước kỳ kinh" };
+const GROUP_TONE = { men:"t-period", foll:"t-foll", fert:"t-ov", lut:"t-lut", pms:"t-pms" };
+
+// Map every past log to a phase group so we can learn her own patterns.
+function patterns(m){
+  const out = { men:{}, foll:{}, fert:{}, lut:{}, pms:{} };
+  const counts = { men:0, foll:0, fert:0, lut:0, pms:0 };
+  const cyc = m.eps.map((e,i) => ({ start:e.start, end:e.end, next: m.eps[i+1] ? m.eps[i+1].start : m.nextStart }));
+  cyc.forEach((c, idx) => {
+    const det = detectOv(c.start, addDays(c.next,-1));
+    let ov = det ? det.k : addDays(c.next, -m.luteal); if(ov <= c.end) ov = addDays(c.end,1);
+    for(let k = c.start; k < c.next && k <= m.T; k = addDays(k,1)){
+      const d = S.days[k]; if(!d) continue;
+      const tags = [...(d.sym||[]), ...(d.mood||[])]; if(!tags.length) continue;
+      let g;
+      if(k <= c.end) g = "men";
+      else if(diff(k,c.next) <= 5) g = "pms";
+      else if(k >= addDays(ov,-5) && k <= addDays(ov,1)) g = "fert";
+      else if(k < ov) g = "foll";
+      else g = "lut";
+      counts[g]++;
+      tags.forEach(t => { const o = out[g][t] || (out[g][t] = { n:0, cycles:new Set() }); o.n++; o.cycles.add(idx); });
+    }
+  });
+  const res = {};
+  Object.keys(out).forEach(g => {
+    res[g] = { days:counts[g], top:Object.entries(out[g]).map(([t,o]) => ({ t, n:o.n, pct:counts[g] ? o.n/counts[g] : 0, cyc:o.cycles.size })).sort((a,b) => b.n-a.n) };
+  });
+  return res;
+}
+
+/* ---------- hormone model (relative curves, textbook shape scaled to her cycle) ---------- */
+const g = (x,mu,s) => Math.exp(-((x-mu)**2)/(2*s*s));
+function hormones(x, ov, L){
+  x = Math.min(x, L);
+  const lc = ov + (L-ov)/2, ls = Math.max(2.2,(L-ov)/4.4);
+  const e2 = 0.12 + 0.8*(x <= ov-1 ? g(x,ov-1,Math.max(3,(ov-1)/3.2)) : g(x,ov-1,1.4)) + 0.4*g(x,lc,ls);
+  const p4 = 0.04 + 0.9*g(x,lc,ls) * (x < ov ? 0.2 : 1);
+  const lh = 0.08 + 0.88*g(x,ov-0.6,0.85);
+  const t  = 0.28 + 0.3*g(x,ov-1,2.6);
+  return { e2:Math.min(1,e2), p4:Math.min(1,p4), lh:Math.min(1,lh), t:Math.min(1,t) };
+}
+const HORM = [
+  { id:"e2", name:"Estrogen", c:"var(--c-e2)" },
+  { id:"p4", name:"Progesterone", c:"var(--c-p4)" },
+  { id:"lh", name:"LH", c:"var(--c-lh)" },
+  { id:"t",  name:"Testosterone", c:"var(--c-t)" }
+];
+function level(v){ return v < 0.25 ? "Thấp" : v < 0.5 ? "Vừa" : v < 0.8 ? "Cao" : "Rất cao"; }
+function trend(id, x, ov, L){
+  const a = hormones(x,ov,L)[id], b = hormones(Math.min(x+1,L),ov,L)[id];
+  const d = b - a; return d > 0.03 ? "đang tăng" : d < -0.03 ? "đang giảm" : "ổn định";
+}
+
+/* ---------- phase content ---------- */
+const PH = {
+  men1:{ name:"Hành kinh", tone:"t-period", body:"Estrogen và progesterone đều xuống mức thấp nhất trong tháng. Niêm mạc tử cung bong ra, cơ thể tiết prostaglandin làm tử cung co bóp, nên dễ đau bụng, mỏi lưng và mệt." },
+  men2:{ name:"Hành kinh", tone:"t-period", body:"Kỳ kinh đang về cuối. FSH kích thích những nang trứng mới lớn lên, estrogen bắt đầu nhích lại, nên sức lực hồi phục dần từng ngày." },
+  foll:{ name:"Nang trứng", tone:"t-foll", body:"Estrogen tăng đều mỗi ngày, kéo serotonin và dopamine lên theo. Thường đây là lúc thấy vui, minh mẫn, nhiều năng lượng và da đẹp nhất tháng." },
+  fert:{ name:"Cửa sổ thụ thai", tone:"t-fert", body:"Estrogen sắp chạm đỉnh, LH chuẩn bị tăng vọt. Dịch tiết thường trong và dai như lòng trắng trứng. Đây là những ngày dễ có thai nhất." },
+  ov:  { name:"Ngày rụng trứng", tone:"t-ov", body:"LH tăng vọt và trứng rụng trong khoảng 24–36 giờ sau đó. Estrogen ở đỉnh, testosterone nhích lên nên thường tự tin và ham muốn cao hơn. Có thể đau nhói nhẹ một bên bụng dưới." },
+  lut1:{ name:"Hoàng thể", tone:"t-lut", body:"Sau rụng trứng, hoàng thể tiết progesterone, thân nhiệt tăng khoảng 0,3–0,5°C. Người dịu lại nhưng dễ buồn ngủ và nhanh đói hơn." },
+  lut2:{ name:"Hoàng thể", tone:"t-lut", body:"Progesterone ở mức cao nhất, estrogen có thêm một đợt tăng nhỏ. Dễ đầy hơi, căng ngực, thèm ngọt và chỉ muốn ở nhà." },
+  pms: { name:"Tiền kinh nguyệt", tone:"t-pms", body:"Nếu không có thai, hoàng thể teo đi, estrogen và progesterone cùng giảm nhanh. Serotonin giảm theo, nên dễ cáu, nhạy cảm, buồn vô cớ, nổi mụn và đầy bụng." },
+  late:{ name:"Trễ kinh", tone:"t-late", body:"Kỳ kinh đến muộn hơn dự kiến. Căng thẳng, thiếu ngủ, ốm, thay đổi cân nặng, tập luyện nặng hoặc có thai đều có thể làm rụng trứng muộn và kéo theo trễ kinh." }
+};
+const TIPS = {
+  men:["Chườm túi nước ấm lên bụng dưới 15–20 phút","Ăn thực phẩm giàu sắt: thịt bò, trứng, rau dền, cải bó xôi","Đi bộ nhẹ hoặc giãn cơ, tránh tập nặng","Uống đủ nước, bớt cà phê và đồ mặn"],
+  foll:["Hợp để tập thể dục cường độ cao hơn","Lên kế hoạch cho việc mới, gặp gỡ bạn bè","Ăn nhiều rau, đạm nạc, ngũ cốc nguyên hạt"],
+  fert:["Dịch tiết trong, dai là dấu hiệu sắp rụng trứng","Nếu chưa muốn có em bé, nhớ dùng biện pháp bảo vệ","Năng lượng đang cao, tranh thủ làm việc khó"],
+  lut:["Ăn đủ bữa, thêm đạm và chất xơ để đỡ đói vặt","Ngủ sớm hơn một chút","Yoga, đi bộ, bơi nhẹ nhàng"],
+  pms:["Bổ sung magie: chuối, hạt bí, sô-cô-la đen","Giảm muối, đường và cà phê để đỡ đầy bụng, cáu gắt","Ngủ đủ 7–8 tiếng, viết ra điều làm mình bực","Bỏ sẵn băng vệ sinh vào túi"],
+  late:["Thử que nếu đã trễ hơn một tuần và có quan hệ","Nghỉ ngơi, giảm áp lực công việc","Nếu trễ quá 3 tháng, nên đi khám phụ khoa"]
+};
+/* Daily message = [hormone fact] + [how she may feel] + [a line from him].
+   Every day gets a combination never shown before; parts used recently are skipped so it never feels repeated. */
+const PARTS = {
+  men1:{
+    o:["Hôm nay estrogen và progesterone của {v} đều xuống thấp nhất tháng.",
+       "Hoóc-môn của {v} đang chạm đáy, niêm mạc tử cung bắt đầu bong ra.",
+       "Những ngày đầu kỳ, cơ thể {v} tiết nhiều prostaglandin làm tử cung co bóp.",
+       "Cả hai hoóc-môn nữ của {v} hôm nay đều ở mức thấp nhất trong chu kỳ.",
+       "Progesterone vừa rút hết nên kỳ kinh của {v} đã bắt đầu.",
+       "Hôm nay cơ thể {v} đang làm một việc rất vất vả: làm mới lại tử cung từ đầu.",
+       "Estrogen thấp làm serotonin của {v} cũng thấp theo trong mấy ngày đầu kỳ.",
+       "Hoóc-môn của {v} đang ở điểm thấp nhất của cả vòng tháng."],
+    f:["Nên {v} dễ đau bụng, mỏi lưng và mệt hơn mọi ngày.",
+       "Vì thế {v} thấy uể oải, nhạy cảm hay hơi khó ở là hoàn toàn bình thường.",
+       "Người sẽ hơi lạnh, hơi mệt và chỉ muốn nằm cuộn tròn trong chăn.",
+       "Có thể {v} sẽ đau quặn bụng, đầy hơi và ngủ không ngon.",
+       "Tâm trạng lên xuống mấy hôm này là do hoóc-môn, không phải do {v}.",
+       "Nếu thấy dễ cáu, dễ tủi thân thì cũng là chuyện của hoóc-môn thôi.",
+       "Cơ thể đang mất máu nên {v} có thể chóng mặt nhẹ và thèm đồ ấm.",
+       "Nên hôm nay {v} có quyền khó tính hơn một chút."],
+    c:["Có cáu với {a} cũng không sao, {a} hiểu mà. Nằm nghỉ đi, phần còn lại để {a} lo.",
+       "Hôm nay {v} được quyền lười, được quyền nhõng nhẽo, {a} không giận đâu.",
+       "Chườm ấm bụng, uống nước ấm nha. Lỡ {a} hỏi nhiều quá thì đừng giận {a} nhé.",
+       "{A} sẽ nấu gì đó nóng nóng cho {v}. {V} chỉ cần nghỉ thôi.",
+       "{V} cáu bẩn với {a} thì {a} vẫn thương như thường.",
+       "Đau quá thì uống thuốc giảm đau rồi gọi {a}, {a} tới xoa bụng cho.",
+       "Hôm nay việc nhà {a} nhận hết. {V} cứ việc làm nũng.",
+       "Nếu {a} lỡ làm gì sai thì {v} cứ mắng, nhưng đừng giận lâu nha."]
+  },
+  men2:{
+    o:["Estrogen của {v} bắt đầu nhích lên lại rồi.",
+       "Kỳ kinh đang về cuối, FSH đang đánh thức những nang trứng mới.",
+       "Hoóc-môn của {v} đã qua đáy và đang đi lên từng ngày.",
+       "Lượng máu kinh giảm dần, cơ thể {v} bắt đầu hồi phục.",
+       "Nang trứng mới đang lớn lên và tiết thêm estrogen cho {v}.",
+       "Hoóc-môn của {v} đang dần quay về phe {v} rồi.",
+       "Tuyến yên của {v} đang tăng FSH để chuẩn bị cho chu kỳ mới."],
+    f:["Mấy hôm nữa {v} sẽ thấy người nhẹ nhõm hơn hẳn.",
+       "Sức lực đang hồi lại từ từ, tâm trạng cũng dịu dần.",
+       "Đau bụng sẽ bớt, giấc ngủ cũng ngon hơn.",
+       "Có thể vẫn hơi mệt vì mất máu, nhưng đầu óc đã sáng sủa hơn.",
+       "Da và tóc của {v} sắp vào giai đoạn đẹp nhất tháng.",
+       "Cảm giác nặng nề mấy ngày trước đang tan dần.",
+       "Nụ cười của {v} sắp quay lại nhiều hơn rồi."],
+    c:["Ăn thêm thịt bò, trứng, rau xanh đậm để bù sắt nha {v}.",
+       "Cần ôm thì cứ gọi {a}, {a} luôn sẵn sàng.",
+       "Ngủ đủ giấc giúp {a}, mai mốt mình đi ăn món {v} thích.",
+       "{A} pha cho {v} cốc nước gừng ấm nhé.",
+       "Cố thêm chút nữa thôi, {a} ở đây với {v}.",
+       "Hôm nay {v} muốn ăn gì, {a} mua cho.",
+       "{V} giỏi lắm, qua được mấy ngày khó chịu nhất rồi."]
+  },
+  foll:{
+    o:["Estrogen của {v} đang lên đều mỗi ngày.",
+       "Đây là giai đoạn nang trứng, nang trứng của {v} đang lớn nhanh.",
+       "Estrogen tăng kéo theo serotonin và dopamine của {v} tăng theo.",
+       "Hoóc-môn đang đứng về phía {v}: estrogen lên, progesterone còn thấp.",
+       "Nang trứng trội đã được chọn và đang tiết estrogen cho {v}.",
+       "Cơ thể {v} đang ở nửa đầu chu kỳ, giai đoạn hoóc-môn dễ chịu nhất.",
+       "Testosterone của {v} cũng bắt đầu nhích nhẹ cùng estrogen."],
+    f:["Nên dạo này {v} sẽ thấy tươi tỉnh, da đẹp và dễ cười hơn.",
+       "Đầu óc minh mẫn, tinh thần phấn chấn, làm gì cũng thấy hăng.",
+       "Đây là lúc {v} nhiều năng lượng nhất để tập thể dục hay học điều mới.",
+       "{V} sẽ thấy tự tin hơn, thích gặp gỡ và nói chuyện hơn.",
+       "Ngủ dậy dễ hơn, ít thèm ngọt hơn, tâm trạng ổn định hơn.",
+       "Khả năng tập trung và trí nhớ mấy hôm này cũng tốt hơn.",
+       "Cơ thể hồi phục nhanh, vận động nhiều cũng ít thấy mệt."],
+    c:["{A} thích {v} những ngày này lắm (mà ngày nào {a} cũng thích).",
+       "Cuối tuần này đi hẹn hò với {a} không?",
+       "Việc gì {v} trì hoãn mãi thì làm luôn hôm nay đi, {a} cổ vũ.",
+       "Đi tập với {a} một buổi không? Hôm nay {v} chắc chắn thắng.",
+       "Cười nhiều vào nha, {v} cười là {a} vui cả ngày.",
+       "Có kế hoạch gì hay thì kể {a} nghe, {a} theo {v} hết.",
+       "Tận hưởng mấy ngày năng lượng này nha, {a} luôn ở cạnh.",
+       "Hôm nay {v} xinh lắm, {a} nói thật đó."]
+  },
+  fert:{
+    o:["Estrogen của {v} sắp lên đỉnh, LH chuẩn bị tăng vọt.",
+       "{V} đang trong cửa sổ thụ thai, những ngày dễ có em bé nhất.",
+       "Nang trứng của {v} đã gần trưởng thành và sẵn sàng rụng.",
+       "Estrogen cao làm dịch tiết của {v} trong và dai hơn.",
+       "Cơ thể {v} đang chuẩn bị cho lần rụng trứng sắp tới.",
+       "Hoóc-môn của {v} đang ở giai đoạn cao điểm của tháng."],
+    f:["{V} sẽ thấy tự tin, xinh hơn và tình cảm hơn một chút.",
+       "Ham muốn có thể tăng, da căng bóng, giọng nói cũng ngọt hơn.",
+       "Năng lượng cao, tâm trạng vui, dễ hòa đồng với mọi người.",
+       "Có thể thấy hơi căng tức bụng dưới, đó là dấu hiệu bình thường.",
+       "Mấy hôm này {v} có sức hút khó cưỡng lắm.",
+       "Cảm giác muốn ra ngoài, muốn làm đẹp sẽ nhiều hơn."],
+    c:["{A} khai thật là {a} để ý rồi.",
+       "Hôm nay {v} rạng rỡ lắm, {a} chỉ muốn ngắm thôi.",
+       "Tối nay mình đi ăn tối nhé, {a} mời.",
+       "Mấy hôm này {a} sẽ về nhà sớm hơn.",
+       "Mặc bộ {v} thích nhất đi, {a} chụp ảnh cho.",
+       "Mình đi dạo một vòng tối nay không?",
+       "{V} cứ tự tin lên, {a} luôn thấy {v} đẹp nhất."]
+  },
+  ov:{
+    o:["Hôm nay khả năng cao là ngày rụng trứng của {v}.",
+       "LH của {v} đang tăng vọt, trứng sắp rụng.",
+       "Estrogen của {v} đang ở đỉnh, testosterone cũng nhích lên.",
+       "Đây là ngày hoóc-môn của {v} lên cao nhất tháng.",
+       "Trứng của {v} rụng và chỉ sống khoảng 12–24 giờ.",
+       "Hôm nay là đỉnh của nửa đầu chu kỳ: LH, estrogen, testosterone cùng lên."],
+    f:["Nên {v} rạng rỡ và tự tin lắm.",
+       "Có thể hơi nhói một bên bụng dưới, nhẹ thôi thì không sao.",
+       "Năng lượng và tâm trạng đang ở mức cao nhất.",
+       "Ham muốn có thể cao hơn mọi ngày, chuyện bình thường thôi.",
+       "Sau hôm nay thân nhiệt sẽ tăng nhẹ.",
+       "Hôm nay {v} có thể hơi đầy bụng hoặc ra nhiều dịch hơn."],
+    c:["Đi đâu chơi với {a} không?",
+       "{A} chỉ cần đứng cạnh {v} thôi là đủ vui.",
+       "Đau bụng thì nói {a}, {a} chườm ấm cho.",
+       "Hôm nay {a} nghe {v} hết, {v} muốn gì cũng được.",
+       "Cảm ơn {v} đã luôn xinh đẹp như vậy.",
+       "Tối nay để {a} nấu, {v} chọn món đi."]
+  },
+  lut1:{
+    o:["Sau rụng trứng, progesterone của {v} đang tăng.",
+       "Hoàng thể đã hình thành và đang tiết progesterone cho {v}.",
+       "Thân nhiệt của {v} mấy hôm nay cao hơn khoảng 0,3–0,5°C do progesterone.",
+       "Estrogen vừa giảm sau rụng trứng, progesterone đang lên thay.",
+       "Cơ thể {v} đang chuyển sang nửa sau của chu kỳ.",
+       "Progesterone là hoóc-môn làm dịu, và nó đang tăng trong người {v}."],
+    f:["Người {v} sẽ dịu lại nhưng hay buồn ngủ và nhanh đói hơn.",
+       "Có thể {v} thấy chậm lại, thích yên tĩnh hơn.",
+       "Ăn nhiều hơn một chút là bình thường, cơ thể đang đốt nhiều năng lượng hơn.",
+       "Tâm trạng ổn định nhưng hơi lười vận động.",
+       "Có thể hơi nổi mụn hoặc da dầu hơn.",
+       "{V} sẽ thấy muốn ở nhà, muốn được chăm hơn."],
+    c:["Muốn ăn gì cứ bảo {a}.",
+       "{V} ngủ sớm một chút nha, {a} canh cho.",
+       "Tối nay mình nằm nhà xem phim nhé.",
+       "{A} để sẵn đồ ăn vặt lành mạnh trong tủ rồi.",
+       "Mệt thì nghỉ, việc nhà để {a}.",
+       "Đi bộ nhẹ với {a} sau bữa tối không?"]
+  },
+  lut2:{
+    o:["Progesterone của {v} đang ở mức cao nhất.",
+       "Giữa pha hoàng thể, estrogen của {v} có thêm một đợt tăng nhỏ.",
+       "Hoóc-môn của {v} đang giữ niêm mạc tử cung dày lên chờ đợi.",
+       "Cả progesterone và estrogen của {v} đang cao, sắp sửa đổi chiều.",
+       "Đây là đoạn giữa nửa sau chu kỳ, progesterone đang làm chủ."],
+    f:["{V} có thể hơi đầy bụng, căng ngực hoặc thèm đồ ngọt.",
+       "{V} thường muốn ở nhà nhiều hơn và ít nói hơn.",
+       "Tâm trạng hơi trầm một chút, đó là chuyện bình thường.",
+       "Cơ thể giữ nước nhiều hơn nên có thể thấy nặng người.",
+       "Có thể ngủ không sâu và dễ thấy mệt hơn.",
+       "Ruột hoạt động chậm lại nên đôi khi bị đầy hơi."],
+    c:["Ăn chút chuối, hạt, sô-cô-la đen sẽ dễ chịu hơn.",
+       "{A} sẽ không rủ đi đâu xa, mình nấu gì ăn ở nhà nhé.",
+       "Nếu {v} hơi lười nói chuyện thì {a} hiểu, {a} ở ngay đây.",
+       "Thèm gì cứ nhắn, {a} mua về liền.",
+       "Tối nay {a} bóp vai cho {v} nhé.",
+       "Uống nhiều nước, bớt mặn một chút nha {v}."]
+  },
+  pms:{
+    o:["Hôm nay hoóc-môn của {v} đang tụt dần, cả estrogen lẫn progesterone.",
+       "Còn {n} ngày nữa là tới kỳ, hoàng thể của {v} đang teo dần.",
+       "Estrogen giảm kéo serotonin của {v} giảm theo.",
+       "{V} đang ở giai đoạn tiền kinh nguyệt.",
+       "Progesterone của {v} đang rơi nhanh, cơ thể chuẩn bị tới tháng.",
+       "Hoóc-môn của {v} đang đổi chiều đột ngột trước kỳ kinh.",
+       "Mấy ngày cuối chu kỳ, hoóc-môn của {v} giảm nhanh nhất tháng."],
+    f:["Nên tính tình {v} dễ cáu bẩn và nhạy cảm hơn mọi ngày.",
+       "{V} dễ buồn vô cớ, dễ khóc, dễ thèm ăn.",
+       "Có thể {v} thấy bực mình vì những chuyện nhỏ xíu.",
+       "Đầy bụng, căng ngực, nổi mụn có thể ghé thăm mấy hôm này.",
+       "Có khó chịu thì cũng không phải lỗi của {v} đâu, là do hoóc-môn đó.",
+       "{V} có thể thấy mệt, khó ngủ và không muốn ai làm phiền.",
+       "Cảm xúc lên xuống thất thường là chuyện rất bình thường lúc này."],
+    c:["{A} biết hết rồi, nên {v} có gắt thì cũng đừng giận {a} nhé. {A} thương.",
+       "Có gì cứ trút lên {a}.",
+       "{A} đã chuẩn bị sẵn tinh thần, trà sữa và một cái ôm.",
+       "{V} cáu thì cứ cáu, {a} không giận đâu.",
+       "Nếu {a} lỡ nói gì làm {v} bực thì {v} bỏ qua cho {a} nha, {a} sẽ ngoan.",
+       "Hôm nay {a} sẽ nói ít, làm nhiều, chiều {v} hết mức.",
+       "Muốn ăn gì ngọt ngọt cứ bảo, {a} đi mua ngay.",
+       "{A} vẫn ở đây, dù {v} đang khó ở cỡ nào.",
+       "Giận {a} chút xíu thôi rồi thương lại nha."]
+  },
+  late:{
+    o:["Kỳ kinh của {v} đang trễ {n} ngày so với dự kiến.",
+       "Trễ {n} ngày rồi {v} ạ, rụng trứng tháng này có thể đã đến muộn.",
+       "Chu kỳ này của {v} đang dài hơn bình thường {n} ngày.",
+       "Progesterone của {v} chưa giảm hẳn nên kinh chưa tới."],
+    f:["Căng thẳng, thức khuya, ốm hay thay đổi cân nặng đều có thể làm trễ kinh.",
+       "Hoóc-môn đôi khi lệch lịch một chút, nhất là khi {v} mệt hay áp lực.",
+       "Có thể {v} vẫn thấy dấu hiệu tiền kinh nguyệt kéo dài thêm vài hôm.",
+       "Đi lại nhiều, đổi múi giờ hay tập nặng cũng làm chu kỳ dài ra."],
+    c:["Đừng lo quá, có {a} đây.",
+       "Mình cứ theo dõi thêm vài hôm nhé.",
+       "{V} nghỉ ngơi nhiều hơn, {a} lo phần còn lại.",
+       "Dù thế nào {a} cũng ở cạnh {v}.",
+       "Thả lỏng nha {v}, càng lo càng dễ trễ thêm đó."]
+  }
+};
+// Shown on the first day of each new hormone phase.
+const TRANS = {
+  men1:["Kỳ kinh mới đã bắt đầu, hoóc-môn của {v} vừa rơi xuống đáy.",
+        "Hôm nay hoóc-môn của {v} đổi hẳn: progesterone rút đi và chu kỳ mới bắt đầu.",
+        "Chu kỳ mới bắt đầu từ hôm nay. Mấy ngày tới hoóc-môn ở mức thấp nhất, {v} cứ nghỉ ngơi nhé.",
+        "Ngày 1 của chu kỳ mới: đợt thay đổi hoóc-môn lớn nhất tháng vừa xảy ra."],
+  men2:["Từ hôm nay estrogen của {v} bắt đầu đi lên trở lại.",
+        "Hoóc-môn của {v} vừa chạm đáy xong và bắt đầu hồi phục.",
+        "Hôm nay hoóc-môn đổi chiều: FSH tăng, nang trứng mới đang lớn."],
+  foll:["Hết kỳ kinh rồi! Từ hôm nay estrogen của {v} tăng mạnh hơn.",
+        "Hoóc-môn của {v} vừa chuyển sang giai đoạn nang trứng, giai đoạn dễ chịu nhất tháng.",
+        "Từ hôm nay {v} bước vào những ngày tràn năng lượng."],
+  fert:["Từ hôm nay {v} vào cửa sổ thụ thai, estrogen đang tăng tốc.",
+        "Hoóc-môn của {v} đang thay đổi nhanh: estrogen lên cao, LH sắp tăng vọt.",
+        "Hôm nay bắt đầu những ngày dễ thụ thai nhất của chu kỳ."],
+  ov:  ["Hôm nay là bước ngoặt của chu kỳ: LH tăng vọt và trứng rụng.",
+        "Hoóc-môn của {v} vừa lên đỉnh, từ mai sẽ đổi chiều.",
+        "Đỉnh LH đã tới, hôm nay là ngày rụng trứng dự kiến của {v}."],
+  lut1:["Từ hôm nay progesterone bắt đầu làm chủ trong người {v}.",
+        "Rụng trứng xong rồi, estrogen hạ xuống và progesterone bắt đầu lên.",
+        "Hôm nay {v} chuyển sang nửa sau chu kỳ, cơ thể sẽ chậm lại một chút."],
+  lut2:["Progesterone của {v} vừa lên tới vùng cao nhất.",
+        "Từ hôm nay hoóc-môn của {v} vào đoạn giữa pha hoàng thể.",
+        "Hoóc-môn của {v} vừa sang đoạn cao nguyên: progesterone cao và ổn định."],
+  pms: ["Từ hôm nay hoóc-môn của {v} bắt đầu thay đổi: estrogen và progesterone đang giảm, nên mấy ngày tới {v} dễ cáu hơn nhé.",
+        "Báo trước nè: hoóc-môn của {v} vừa đổi chiều, giai đoạn tiền kinh nguyệt bắt đầu.",
+        "Hôm nay bắt đầu mấy ngày hoóc-môn giảm nhanh nhất tháng. {A} đã sẵn sàng rồi."],
+  late:["Hôm nay đã qua ngày dự kiến, kỳ kinh của {v} đang đến chậm một chút.",
+        "Kinh chưa tới đúng hẹn, có thể rụng trứng tháng này đã đến muộn."]
+};
+// Extra lines, each with variants so the same sentence does not come back day after day.
+const EXTRA = {
+  due1:["Mai có thể tới tháng rồi đó, {v} nhớ bỏ sẵn băng vệ sinh vào túi nha.",
+        "Theo lịch thì mai là tới kỳ, {v} chuẩn bị sẵn đồ nha.",
+        "Ngày mai kỳ kinh có thể ghé, {a} nhắc trước để {v} khỏi bất ngờ."],
+  due0:["Hôm nay là ngày dự kiến tới tháng. Thấy rồi thì {v} bấm \"Kinh đến hôm nay\" nha.",
+        "Theo lịch thì kỳ kinh tới hôm nay. Có rồi thì {v} ghi lại giúp {a} nhé."],
+  late7:["Trễ hơn một tuần rồi, {v} thử que cho yên tâm nha. Nếu âm tính mà vẫn chưa có kinh, mình đi khám cùng nhau.",
+         "Đã trễ khá lâu, {v} thử que một lần cho chắc nha. Có gì {a} đi khám cùng {v}."],
+  avoid:["Đang trong cửa sổ thụ thai, mình cẩn thận nha. Lịch này chỉ là ước tính, không thay được biện pháp tránh thai.",
+         "Mấy ngày này dễ có em bé, nhớ dùng biện pháp bảo vệ nha. Lịch chỉ là ước tính thôi."],
+  conceive:["Những ngày này là thời điểm tốt nhất nếu mình đang mong em bé.",
+            "Nếu mình đang mong em bé thì đây là những ngày đáng chú ý nhất."],
+  pattern:["Mấy chu kỳ trước, tầm này {v} hay bị {x}. {A} để ý rồi.",
+           "{A} nhớ là cứ tới giai đoạn này {v} hay bị {x}, nên {a} chuẩn bị sẵn rồi.",
+           "Theo những gì {v} ghi lại, giai đoạn này {v} thường bị {x}."],
+  "m-cau":["{A} thấy hôm nay {v} ghi là hơi cáu. Hít thở sâu nha, {a} đợi {v} nguôi rồi mình nói chuyện.",
+           "Hôm nay {v} đang bực, {a} biết rồi. {A} sẽ ngoan hơn mọi ngày.",
+           "Cáu thì cứ cáu, {a} không cãi lại đâu."],
+  "m-buon":["Hôm nay {v} thấy buồn hả. Không cần lý do đâu, {a} ôm một cái là đỡ.",
+            "Buồn thì cứ nói với {a}, hoặc không nói cũng được, {a} ngồi cạnh thôi."],
+  "m-de-khoc":["Muốn khóc thì cứ khóc, {a} không chọc đâu.",
+               "Khóc xong sẽ nhẹ người hơn, {a} cho mượn vai."],
+  "m-lo":["{V} đang lo gì thì kể {a} nghe với.",
+          "Đừng ôm lo lắng một mình, có {a} chia bớt."],
+  "m-nhay-cam":["Hôm nay {v} nhạy cảm hơn, {a} sẽ nói năng nhẹ nhàng.",
+                "{A} biết hôm nay {v} dễ tổn thương, {a} sẽ cẩn thận từng câu."],
+  "m-muon-cung":["Đã nhận tín hiệu muốn được cưng. {A} tới liền.",
+                 "Muốn được cưng là chuyện chính đáng, {a} xin nhận nhiệm vụ."],
+  "s-dau-bung":["Đau bụng thì chườm ấm, uống thuốc giảm đau nếu cần. Đau quá phải bảo {a} nha.",
+                "Bụng đau thì nằm nghiêng co chân lại sẽ đỡ hơn, {a} lấy túi chườm cho."],
+  "s-dau-dau":["Đau đầu thì uống thêm nước và nghỉ mắt khỏi điện thoại một lát nha.",
+               "Đầu đau thì tắt bớt đèn, nằm nghỉ chút, {a} xoa thái dương cho."],
+  "s-met":["Mệt thì nghỉ, việc nhà để {a}.",
+           "Hôm nay mệt thì mình hủy hết kế hoạch, ở nhà nghỉ thôi."],
+  "s-them-ngot":["Thèm ngọt hả, để {a} mua cho.",
+                 "Một miếng bánh ngọt không làm sao đâu, {a} mua liền."]
+};
+
+function chooseParts(T, ph, n){
+  S.msg = S.msg || {};
+  const rec = S.msg[T];
+  if(rec && rec.ph === ph) return rec;
+  const P = PARTS[ph];
+  const hist = Object.keys(S.msg).filter(k => k < T && S.msg[k].ph === ph).sort().map(k => S.msg[k]);
+  const used = new Set(hist.map(r => `${r.o}.${r.f}.${r.c}`));
+  const okO = i => !/\{n\}/.test(P.o[i]) || n >= 2;
+  const rank = (arr, key, ok) => {
+    const cnt = arr.map((_,i) => hist.filter(r => r[key] === i).length);
+    const recent = new Set(hist.slice(-Math.min(arr.length-1, 4)).map(r => r[key]));
+    return arr.map((_,i) => i).filter(ok || (() => true))
+      .sort((a,b) => (recent.has(a) - recent.has(b)) || (cnt[a] - cnt[b]) || (hash(T+key+a) - hash(T+key+b)));
+  };
+  const os = rank(P.o,"o",okO), fs = rank(P.f,"f"), cs = rank(P.c,"c");
+  let pick = null;
+  outer: for(const o of os) for(const f of fs) for(const c of cs){ if(!used.has(`${o}.${f}.${c}`)){ pick = { o, f, c }; break outer; } }
+  if(!pick) pick = { o:os[0], f:fs[0], c:cs[0] };
+  const r = { ph, ...pick, x:{} };
+  S.msg[T] = r;
+  const keys = Object.keys(S.msg).sort(); while(keys.length > 500) delete S.msg[keys.shift()];
+  save();
+  return r;
+}
+// Pick an extra line variant: same one all day, a different one from last time.
+function extra(r, T, key){
+  const arr = EXTRA[key];
+  if(r.x[key] == null){
+    const prev = Object.keys(S.msg).filter(k => k < T && S.msg[k].x && S.msg[k].x[key] != null).sort();
+    const last = prev.length ? S.msg[prev[prev.length-1]].x[key] : -1;
+    let i = hash(T+key) % arr.length; if(i === last) i = (i+1) % arr.length;
+    r.x[key] = i; save();
+  }
+  return arr[r.x[key]];
+}
+function isPhaseStart(m){
+  if(m.cd === 1) return true;
+  const prev = phaseOf(addDays(m.T,-1), m);
+  if(prev === "ov" && m.phase === "fert") return false; // last fertile day after ovulation is not a new phase
+  return prev !== m.phase;
+}
+function buildMessage(m){
+  const T = m.T, ph = m.phase, d = dayLog(T) || {};
+  const n = ph === "late" ? -m.toNext : Math.max(m.toNext,0);
+  const r = chooseParts(T, ph, n);
+  const P = PARTS[ph];
+  const text = fill([P.o[r.o], P.f[r.f], P.c[r.c]].join(" "), n);
+  let trans = null;
+  if(isPhaseStart(m)){
+    if(r.t == null){
+      const prev = Object.keys(S.msg).filter(k => k < T && S.msg[k].ph === ph && S.msg[k].t != null).sort().map(k => S.msg[k].t);
+      const cnt = TRANS[ph].map((_,i) => prev.filter(t => t === i).length);
+      const last = prev.length ? prev[prev.length-1] : -1;
+      r.t = TRANS[ph].map((_,i) => i).filter(i => i !== last || TRANS[ph].length === 1).sort((a,b) => cnt[a]-cnt[b] || hash(T+"t"+a)-hash(T+"t"+b))[0];
+      save();
+    }
+    trans = fill(TRANS[ph][r.t], n);
+  }
+  const ex = [];
+  if(ph !== "late" && !m.inPeriod){
+    if(m.toNext === 1) ex.push(extra(r,T,"due1"));
+    else if(m.toNext === 0) ex.push(extra(r,T,"due0"));
+  }
+  if(ph === "late" && n >= 7) ex.push(extra(r,T,"late7"));
+  if((ph === "fert" || ph === "ov") && (S.profile.goal === "avoid" || S.profile.goal === "conceive")) ex.push(extra(r,T,S.profile.goal));
+  const pat = patterns(m)[GROUP[ph]];
+  if(pat && pat.days >= 3){
+    const top = pat.top.filter(x => x.pct >= 0.4 && x.cyc >= 2).slice(0,2).map(x => LABEL[x.t].toLowerCase());
+    if(top.length) ex.push(extra(r,T,"pattern").replace("{x}", top.join(" và ")));
+  }
+  (d.mood||[]).forEach(t => { if(EXTRA["m-"+t] && ex.length < 4) ex.push(extra(r,T,"m-"+t)); });
+  (d.sym||[]).forEach(t => { if(EXTRA["s-"+t] && ex.length < 4) ex.push(extra(r,T,"s-"+t)); });
+  return { trans, text, extra:ex.slice(0,3).map(t => fill(t,n)) };
+}
+
+/* ---------- calendar marks ---------- */
+function marks(m){
+  const pred = new Set(), fert = new Set(), ov = new Set();
+  if(m.empty) return { pred, fert, ov };
+  const addFert = o => { ov.add(o); for(let i = -5; i <= 1; i++) if(i) fert.add(addDays(o,i)); };
+  m.cycles.forEach(c => { let o = c.ov ? c.ov.k : addDays(c.next,-m.luteal); if(o > addDays(c.start, c.per-1)) addFert(o); });
+  addFert(m.ovKey);
+  if(m.toNext >= 0){
+    for(let i = 0; i < 6; i++){
+      const s = addDays(m.nextStart, i*m.avgLen);
+      for(let j = 0; j < m.avgPer; j++){ const k = addDays(s,j); if(!(S.days[k] && S.days[k].flow > 0)) pred.add(k); }
+      if(i > 0) addFert(addDays(s,-m.luteal));
+    }
+    addFert(addDays(addDays(m.nextStart, 6*m.avgLen), -m.luteal));
+  }
+  return { pred, fert, ov };
+}
+
+/* ---------- UI state ---------- */
+let tab = "today";
+try{ const t = sessionStorage.getItem("may.tab"); if(t) tab = t; }catch(e){}
+let calMonth = null, selDay = null, editMode = false, onbDraft = null, hiddenH = { lh:false, t:false }, scrubX = null, confirmClear = false, pendingImport = null, pickStart = false;
+
+function setTab(t){
+  tab = t; editMode = false; confirmClear = false; pendingImport = null; pickStart = false;
+  try{ sessionStorage.setItem("may.tab",t); }catch(e){}
+  render(); window.scrollTo(0,0);
+}
+$$(".tab").forEach(b => b.addEventListener("click", () => setTab(b.dataset.tab)));
+
+function render(){
+  $$(".tab").forEach(b => b.setAttribute("aria-current", b.dataset.tab === tab ? "page" : "false"));
+  $("#topdate").textContent = longDate(todayKey());
+  const m = model();
+  const app = $("#app");
+  if(tab === "today") app.innerHTML = m.empty ? viewOnboard() : viewToday(m);
+  else if(tab === "cal") app.innerHTML = viewCal(m);
+  else if(tab === "insight") app.innerHTML = viewInsight(m);
+  else app.innerHTML = viewSettings(m);
+  bind(m);
+}
+
+/* ---------- views: onboarding ---------- */
+function viewOnboard(){
+  const T = todayKey();
+  const d = onbDraft || (onbDraft = { start:addDays(T,-10), per:S.profile.periodLen, len:S.profile.cycleLen, her:S.profile.her });
+  return `<div class="view onb">
+    <h1>Chào ${esc(d.her||"em")}.</h1>
+    <p class="lead">May ghi lại kỳ kinh, đoán ngày tới tháng và kể cho ${esc(d.her||"em")} biết hoóc-môn đang làm gì với cơ thể mỗi ngày. Chỉ cần vài thông tin để bắt đầu.</p>
+    <div class="field"><label for="onb-start">Kỳ kinh gần nhất bắt đầu ngày</label><input type="date" id="onb-start" max="${T}" value="${d.start}"></div>
+    <div class="group">
+      <div class="row"><div class="rl">Kỳ kinh thường kéo dài<small>Số ngày ra máu</small></div>${stepper("onb-per", d.per, "ngày")}</div>
+      <div class="row"><div class="rl">Chu kỳ thường dài<small>Từ ngày đầu kỳ này tới ngày đầu kỳ sau</small></div>${stepper("onb-len", d.len, "ngày")}</div>
+    </div>
+    <button class="btn btn-primary" id="onb-go">Bắt đầu theo dõi</button>
+    <button class="btn btn-ghost" id="onb-sample">Xem thử với dữ liệu mẫu</button>
+    <p class="small muted">Không nhớ chính xác cũng không sao, sau này sửa lại trong Lịch được. Dữ liệu chỉ nằm trên điện thoại này.</p>
+  </div>`;
+}
+function stepper(id, val, unit){
+  return `<div class="stepper" data-stepper="${id}"><button type="button" data-d="-1" aria-label="Giảm">−</button><output id="${id}">${val}</output><button type="button" data-d="1" aria-label="Tăng">+</button></div>`;
+}
+
+/* ---------- views: today ---------- */
+function viewToday(m){
+  const T = m.T, ph = PH[m.phase];
+  const msg = buildMessage(m);
+  const L = Math.max(m.avgLen, m.cd);
+  let countdown;
+  if(m.phase === "late") countdown = `Kỳ kinh trễ <b>${-m.toNext} ngày</b>`;
+  else if(m.inPeriod) countdown = `Ngày thứ <b>${m.cd}</b> của kỳ kinh`;
+  else if(m.toNext === 0) countdown = `Kỳ kinh có thể đến <b>hôm nay</b>`;
+  else countdown = `Còn <b>${m.toNext} ngày</b> tới kỳ kinh`;
+  // ruler
+  let cells = "";
+  for(let i = 1; i <= L; i++){
+    const k = addDays(m.start, i-1), d = S.days[k];
+    let c = "rd";
+    if(d && d.flow > 0) c += " p";
+    else if(k === m.ovKey) c += " o";
+    else if(k >= m.fertStart && k <= m.fertEnd) c += " f";
+    if(k < T) c += " past";
+    if(k === T) c += " today";
+    cells += `<i class="${c}" title="Ngày ${i}"></i>`;
+  }
+  const today = dayLog(T) || {};
+  const tags = [];
+  if(today.flow > 0) tags.push(`<span class="tag p">Kinh: ${FLOW[today.flow][1].toLowerCase()}</span>`);
+  if(today.spot) tags.push(`<span class="tag p">Lấm tấm</span>`);
+  [...(today.sym||[]),...(today.mood||[])].forEach(t => tags.push(`<span class="tag">${LABEL[t]}</span>`));
+  if(today.temp) tags.push(`<span class="tag">${String(today.temp).replace(".",",")}°C</span>`);
+  if(today.lh) tags.push(`<span class="tag">LH ${today.lh === "duong" ? "dương tính" : "âm tính"}</span>`);
+  const fertTxt = m.fertEnd < T ? "đã qua" : m.fertStart <= T ? "đang diễn ra" : relDays(diff(T,m.fertStart));
+  const ovTxt = m.ovBy === "temp" ? "theo nhiệt độ cơ thể" : m.ovBy === "lh" ? "theo que thử LH" : relDays(diff(T,m.ovKey));
+  const backupDue = !S.sample && Object.keys(S.days).length > 5 && (!S.lastBackup || diff(S.lastBackup.slice(0,10), T) > 30);
+  const sinceEnd = diff(m.end, T);
+  const btns = m.inPeriod
+    ? `<button class="btn btn-ink" id="act-end">Hết kinh rồi</button>`
+    : sinceEnd >= 1 && sinceEnd <= 2
+      ? `<button class="btn btn-primary" id="act-cont">Vẫn còn kinh</button>`
+      : `<button class="btn btn-primary" id="act-start">Kinh đến hôm nay</button>`;
+  const pastStart = pickStart
+    ? `<div class="pick"><label for="pick-date">Kinh bắt đầu ngày</label><div class="pick-row"><input type="date" id="pick-date" max="${T}" value="${addDays(T,-1)}"><button class="btn btn-primary btn-small" id="pick-go">Ghi lại</button></div><p class="small muted">May sẽ đánh dấu ${m.avgPer} ngày có kinh từ ngày đó. Sai ngày nào thì sửa trong Lịch.</p></div>`
+    : `<button class="linkish" id="pick-open">Kinh đến từ hôm trước mà quên ghi? Chọn ngày</button>`;
+  const tipG = GROUP[m.phase] === "fert" ? "fert" : m.phase === "late" ? "late" : GROUP[m.phase];
+  const tips = TIPS[tipG].slice(0,3);
+  return `<div class="view ${ph.tone}">
+    ${S.sample ? `<div class="banner"><span>Đang xem dữ liệu mẫu.</span><button class="btn btn-small btn-ghost" id="clear-sample">Bắt đầu thật</button></div>` : ""}
+    <section>
+      <div class="hero">
+        <div class="cd"><small>Ngày</small>${m.cd}</div>
+        <div class="meta"><span class="chip-phase">${ph.name}</span><p class="countdown">${countdown}</p></div>
+      </div>
+      <div class="ruler" aria-label="Chu kỳ hiện tại">
+        <div class="ruler-track">${cells}</div>
+        <div class="ruler-scale"><span>${dm(m.start)}</span><span>rụng trứng ~${dm(m.ovKey)}</span><span>${dm(addDays(m.start,L-1))}</span></div>
+      </div>
+    </section>
+    <section class="note" aria-label="Lời nhắn">
+      <div class="from"><svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-9.6-9.3C.9 8.2 3.2 4.5 6.9 4.5c2.1 0 3.6 1.1 5.1 2.9 1.5-1.8 3-2.9 5.1-2.9 3.7 0 6 3.7 4.5 7.2C19.5 16.4 12 21 12 21z"/></svg>Lời nhắn hôm nay</div>
+      ${msg.trans ? `<p class="trans"><span>Hoóc-môn vừa đổi giai đoạn</span>${msg.trans}</p>` : ""}
+      <p class="msg">${msg.text}</p>
+      ${msg.extra.length ? `<div class="extra">${msg.extra.map(t => `<p>${t}</p>`).join("")}</div>` : ""}
+      <p class="sign">— ${esc(cap(S.profile.him||"anh"))}</p>
+    </section>
+    <div class="actions">${btns}<button class="btn btn-ghost" id="act-log">${hasLog(today) ? "Sửa ghi nhận" : "Ghi nhận hôm nay"}</button></div>
+    ${m.inPeriod ? "" : pastStart}
+    ${tags.length ? `<section><div class="sec-h"><h2>Hôm nay ${esc(S.profile.her)} đã ghi</h2></div><div class="logsum">${tags.join("")}</div></section>` : ""}
+    <section class="facts">
+      <div class="fact"><span class="k"><i style="background:var(--period)"></i>Kỳ kinh tiếp theo</span><span class="v">${dm(m.nextStart)}<small>${m.phase === "late" ? `trễ ${-m.toNext} ngày` : relDays(m.toNext)}</small></span></div>
+      <div class="fact"><span class="k"><i style="background:var(--ovul)"></i>Rụng trứng</span><span class="v">${dm(m.ovKey)}<small>${ovTxt}</small></span></div>
+      <div class="fact"><span class="k"><i style="background:var(--fertile)"></i>Cửa sổ thụ thai</span><span class="v">${dm(m.fertStart)} – ${dm(m.fertEnd)}<small>${fertTxt}</small></span></div>
+      <div class="fact"><span class="k"><i style="background:var(--muted)"></i>Chu kỳ trung bình</span><span class="v">${m.avgLen} ngày<small>${m.valid.length ? `từ ${m.valid.length} chu kỳ gần nhất` : "theo cài đặt"}</small></span></div>
+    </section>
+    <section class="hormone-card">
+      <div class="sec-h"><h2>Hoóc-môn hôm nay</h2><span class="aside">kéo để xem ngày khác</span></div>
+      <div class="chart-wrap" id="hchart">${hormoneSVG(m)}</div>
+      <div class="legend">${HORM.map(h => `<button class="lg" data-h="${h.id}" style="--c:${h.c}" aria-pressed="${!hiddenH[h.id]}"><i></i>${h.name}</button>`).join("")}</div>
+      <div class="readout" id="readout">${readout(m, scrubX || Math.min(m.cd, L))}</div>
+      <p class="phase-body">${ph.body}</p>
+    </section>
+    <section>
+      <div class="sec-h"><h2>Hôm nay nên</h2></div>
+      <div class="tips">${tips.map(t => `<div class="tip"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>${t}</span></div>`).join("")}</div>
+    </section>
+    ${backupDue ? `<div class="banner"><span>Đã lâu chưa sao lưu dữ liệu.</span><button class="btn btn-small btn-ghost" id="go-backup">Sao lưu</button></div>` : ""}
+    <p class="small muted">Dự đoán dựa trên lịch sử chu kỳ, không thay thế lời khuyên của bác sĩ và không dùng làm biện pháp tránh thai.</p>
+  </div>`;
+}
+
+const CH = { W:340, H:150, l:6, r:6, t:12, b:24 };
+function hormoneSVG(m){
+  const L = Math.max(m.avgLen, Math.min(m.cd, m.avgLen + 14)), ov = m.ovCd;
+  const X = d => CH.l + (d-1)/(L-1)*(CH.W-CH.l-CH.r);
+  const Y = v => CH.t + (1-v)*(CH.H-CH.t-CH.b);
+  const per = Math.min(m.last.len, L);
+  let s = `<svg viewBox="0 0 ${CH.W} ${CH.H}" role="img" aria-label="Đường cong hoóc-môn theo chu kỳ">`;
+  s += `<rect x="${X(1)}" y="${CH.t}" width="${X(per+0.5)-X(1)}" height="${CH.H-CH.t-CH.b}" fill="var(--period-soft)" rx="3"/>`;
+  s += `<rect x="${X(Math.max(1,ov-5))}" y="${CH.t}" width="${X(Math.min(L,ov+1))-X(Math.max(1,ov-5))}" height="${CH.H-CH.t-CH.b}" fill="var(--fertile-soft)" rx="3"/>`;
+  [0.25,0.5,0.75].forEach(v => s += `<line x1="${CH.l}" x2="${CH.W-CH.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)" stroke-width="1" stroke-dasharray="2 4"/>`);
+  s += `<line x1="${CH.l}" x2="${CH.W-CH.r}" y1="${Y(0)}" y2="${Y(0)}" stroke="var(--line)" stroke-width="1"/>`;
+  HORM.forEach(h => {
+    if(hiddenH[h.id]) return;
+    let p = "";
+    for(let x = 1; x <= L + 0.001; x += 0.25){ p += (p ? "L" : "M") + X(x).toFixed(1) + " " + Y(hormones(x,ov,m.avgLen)[h.id]).toFixed(1); }
+    const w = (h.id === "e2" || h.id === "p4") ? 2.25 : 1.6;
+    s += `<path d="${p}" fill="none" stroke="${h.c}" stroke-width="${w}" stroke-linejoin="round" stroke-linecap="round"/>`;
+  });
+  const ticks = [[1,"Ngày 1"],[ov,"Rụng trứng"],[L,"Ngày "+L]];
+  ticks.forEach(([d,t],i) => s += `<text x="${X(d)}" y="${CH.H-6}" font-size="10.5" fill="var(--muted)" text-anchor="${i===0?"start":i===2?"end":"middle"}" font-family="inherit">${t}</text>`);
+  s += `<g id="cursor"></g><rect id="hit" x="0" y="0" width="${CH.W}" height="${CH.H}" fill="transparent"/></svg>`;
+  return s;
+}
+function cursorSVG(m, x){
+  const L = Math.max(m.avgLen, Math.min(m.cd, m.avgLen + 14)), ov = m.ovCd;
+  const X = d => CH.l + (d-1)/(L-1)*(CH.W-CH.l-CH.r);
+  const Y = v => CH.t + (1-v)*(CH.H-CH.t-CH.b);
+  const xx = Math.min(x, L), hv = hormones(xx, ov, m.avgLen);
+  let s = `<line x1="${X(xx)}" x2="${X(xx)}" y1="${CH.t-6}" y2="${CH.H-CH.b}" stroke="var(--ink)" stroke-width="1.25"/>`;
+  s += `<text x="${Math.min(Math.max(X(xx),24),CH.W-24)}" y="${CH.t-8}" font-size="10.5" font-weight="600" fill="var(--ink)" text-anchor="middle" font-family="inherit">${x === m.cd ? "Hôm nay" : "Ngày "+x}</text>`;
+  HORM.forEach(h => { if(!hiddenH[h.id]) s += `<circle cx="${X(xx)}" cy="${Y(hv[h.id])}" r="4.5" fill="${h.c}" stroke="var(--surface)" stroke-width="2"/>`; });
+  return s;
+}
+function readout(m, x){
+  const L = Math.max(m.avgLen, Math.min(m.cd, m.avgLen + 14)), xx = Math.min(x,L), hv = hormones(xx, m.ovCd, m.avgLen);
+  const day = addDays(m.start, x-1);
+  return `<div class="ro-day">${x === m.cd ? "Hôm nay" : longDate(day)} · ngày ${x} của chu kỳ</div>` +
+    HORM.map(h => `<div class="ro" style="--c:${h.c}"><span class="n"><i></i>${h.name}</span><span class="s">${level(hv[h.id])} <span>${trend(h.id,xx,m.ovCd,m.avgLen)}</span></span></div>`).join("");
+}
+
+/* ---------- views: calendar ---------- */
+function viewCal(m){
+  const T = todayKey();
+  if(!calMonth){ const d = parse(T); calMonth = { y:d.getFullYear(), m:d.getMonth() }; }
+  if(!selDay) selDay = T;
+  const mk = marks(m);
+  const first = new Date(calMonth.y, calMonth.m, 1);
+  const offset = (first.getDay() + 6) % 7;
+  const startK = keyOf(new Date(calMonth.y, calMonth.m, 1 - offset));
+  const rows = Math.ceil((offset + new Date(calMonth.y, calMonth.m+1, 0).getDate())/7);
+  let cells = "";
+  for(let i = 0; i < rows*7; i++){
+    const k = addDays(startK, i), d = parse(k), log = S.days[k];
+    const c = ["day"];
+    if(d.getMonth() !== calMonth.m) c.push("out");
+    if(log && log.flow > 0){ c.push("per"); if(log.flow === 1) c.push("light"); }
+    else if(mk.pred.has(k)) c.push("pred");
+    else if(mk.ov.has(k)) c.push("ov");
+    else if(mk.fert.has(k)) c.push("fert");
+    if(log && log.spot && !(log.flow > 0)) c.push("spot");
+    if(k === T) c.push("today");
+    if(k > T) c.push("future");
+    if(k === selDay && !editMode) c.push("sel");
+    const dot = hasLog(log) && !(log.flow > 0 && !log.sym && !log.mood) ? `<span class="dot"></span>` : "";
+    cells += `<button class="${c.join(" ")}" data-k="${k}" aria-label="${longDate(k)}"><span class="dn">${d.getDate()}</span>${dot}</button>`;
+  }
+  return `<div class="view">
+    <div class="cal-head"><h2>Tháng ${calMonth.m+1}, ${calMonth.y}</h2>
+      <div class="cal-nav"><button class="icon-btn" id="cal-prev" aria-label="Tháng trước"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><button class="icon-btn" id="cal-next" aria-label="Tháng sau"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button></div>
+    </div>
+    ${editMode ? `<div class="edit-hint"><span>Chạm vào ngày để bật hoặc tắt ngày có kinh.</span><button class="btn btn-small btn-ink" id="edit-done">Xong</button></div>` : ""}
+    <div class="${editMode ? "editing" : ""}">
+      <div class="wk"><span>T2</span><span>T3</span><span>T4</span><span>T5</span><span>T6</span><span>T7</span><span>CN</span></div>
+      <div class="grid" id="grid">${cells}</div>
+    </div>
+    <div class="cal-legend"><span><i class="sw per"></i>Có kinh</span><span><i class="sw pred"></i>Dự kiến</span><span><i class="sw fert"></i>Dễ thụ thai</span><span><i class="sw ov"></i>Rụng trứng</span></div>
+    ${editMode ? "" : selPanel(m, mk)}
+    ${editMode ? "" : `<div class="btn-row"><button class="btn btn-ghost" id="edit-on">Sửa ngày có kinh</button><button class="btn btn-soft" id="cal-today">Về hôm nay</button></div>`}
+  </div>`;
+}
+function selPanel(m, mk){
+  const T = todayKey(), k = selDay, log = S.days[k];
+  let status = [];
+  if(log && log.flow > 0) status.push(`Có kinh (${FLOW[log.flow][1].toLowerCase()})`);
+  else if(mk.pred.has(k)) status.push("Dự kiến có kinh");
+  if(mk.ov.has(k)) status.push("Ngày rụng trứng ước tính");
+  else if(mk.fert.has(k)) status.push("Trong cửa sổ thụ thai");
+  if(!m.empty && k >= m.start && k <= addDays(m.start, Math.max(m.avgLen,m.cd)+0) && k <= m.nextStart) status.push(`Ngày ${diff(m.start,k)+1} của chu kỳ`);
+  const tags = [];
+  if(log){
+    [...(log.sym||[]),...(log.mood||[])].forEach(t => tags.push(`<span class="tag">${LABEL[t]}</span>`));
+    if(log.spot) tags.push(`<span class="tag p">Lấm tấm</span>`);
+    if(log.disch) tags.push(`<span class="tag">Dịch: ${LABEL[log.disch].toLowerCase()}</span>`);
+    if(log.temp) tags.push(`<span class="tag">${String(log.temp).replace(".",",")}°C</span>`);
+    if(log.lh) tags.push(`<span class="tag">LH ${log.lh === "duong" ? "dương tính" : "âm tính"}</span>`);
+    if(log.sex) tags.push(`<span class="tag">Quan hệ</span>`);
+  }
+  return `<div class="sel-panel">
+    <h3>${longDate(k)}</h3>
+    <p class="small muted">${status.length ? status.join(" · ") : (k > T ? "Chưa tới ngày này" : "Chưa có ghi nhận")}</p>
+    ${tags.length ? `<div class="logsum">${tags.join("")}</div>` : ""}
+    ${log && log.note ? `<p class="small">“${esc(log.note)}”</p>` : ""}
+    ${k <= T ? `<button class="btn btn-ink" id="sel-log">${hasLog(log) ? "Sửa ghi nhận ngày này" : "Ghi nhận ngày này"}</button>` : ""}
+  </div>`;
+}
+
+/* ---------- views: insights ---------- */
+function viewInsight(m){
+  if(m.empty) return `<div class="view"><div class="sec-h"><h2>Nhìn lại</h2></div><p class="muted">Ghi lại kỳ kinh đầu tiên ở tab Hôm nay để May bắt đầu học chu kỳ của ${esc(S.profile.her)}.</p></div>`;
+  const her = esc(S.profile.her);
+  const flags = [];
+  const nC = m.valid.length;
+  if(nC >= 2 && m.avgLen < 21) flags.push(["Chu kỳ ngắn hơn bình thường", `Chu kỳ trung bình ${m.avgLen} ngày, ngắn hơn khoảng 21–35 ngày thường gặp. Nếu kéo dài vài tháng, nên đi khám phụ khoa.`]);
+  if(nC >= 2 && m.avgLen > 35) flags.push(["Chu kỳ dài hơn bình thường", `Chu kỳ trung bình ${m.avgLen} ngày, dài hơn khoảng 21–35 ngày thường gặp. Nguyên nhân hay gặp: căng thẳng, thay đổi cân nặng, buồng trứng đa nang hoặc tuyến giáp. Nên hỏi bác sĩ.`]);
+  if(m.variation != null && m.variation > 9) flags.push(["Chu kỳ chưa đều", `Chu kỳ dài nhất và ngắn nhất gần đây chênh nhau ${m.variation} ngày (thường dưới 7–9 ngày). Dự đoán sẽ kém chính xác hơn.`]);
+  const longPer = m.eps.slice(-3).filter(e => e.len > 7).length;
+  if(m.avgPer > 7 || longPer >= 2) flags.push(["Hành kinh kéo dài", "Có kỳ kinh dài hơn 7 ngày. Nếu lặp lại hoặc ra nhiều máu, nên đi khám để kiểm tra thiếu máu và nguyên nhân."]);
+  const lastEp = m.eps[m.eps.length-1];
+  let heavy = 0; for(let k = lastEp.start; k <= lastEp.end; k = addDays(k,1)) if(S.days[k] && S.days[k].flow === 3) heavy++;
+  if(heavy >= 4) flags.push(["Ra nhiều máu nhiều ngày", `Kỳ gần nhất có ${heavy} ngày ra nhiều. Nếu phải thay băng mỗi 1–2 giờ hoặc thấy chóng mặt, nên đi khám sớm.`]);
+  let spots = 0; Object.entries(S.days).forEach(([k,d]) => { if(d.spot && !(d.flow > 0) && diff(k, m.T) <= 90) spots++; });
+  if(spots >= 3) flags.push(["Ra máu lấm tấm giữa kỳ", `${spots} lần trong 3 tháng gần đây. Thỉnh thoảng thì không sao, nhưng nếu thường xuyên nên hỏi bác sĩ.`]);
+  if(m.cd > 90 && !m.inPeriod) flags.push(["Đã lâu chưa có kinh", "Hơn 90 ngày chưa có kinh. Nên đi khám phụ khoa."]);
+
+  const pat = patterns(m);
+  const patRows = ["men","foll","fert","lut","pms"].map(gk => {
+    const p = pat[gk]; const top = p.top.filter(x => x.n >= 2).slice(0,3);
+    if(p.days < 2 || !top.length) return "";
+    return `<div class="prow ${GROUP_TONE[gk]}"><div class="ph"><i></i>${GROUP_NAME[gk]} <span class="small muted" style="font-weight:400">· ${p.days} ngày có ghi</span></div>
+      ${top.map(x => `<div class="pbar"><span>${LABEL[x.t]}</span><span class="track"><b style="width:${Math.round(x.pct*100)}%"></b></span><span class="pc">${Math.round(x.pct*100)}%</span></div>`).join("")}</div>`;
+  }).join("");
+
+  const hist = [...m.cycles.slice(-11).map(c => ({ ...c, done:true })), { start:m.start, len:m.cd, per:m.last.len, done:false }].reverse();
+  const maxL = Math.max(36, ...hist.map(h => h.len));
+  const histRows = hist.map(h => {
+    let bars = "";
+    const ovd = h.done ? diff(h.start, h.ov ? h.ov.k : addDays(h.next,-m.luteal)) + 1 : m.ovCd;
+    for(let i = 1; i <= maxL; i++){
+      let c = i <= h.len ? (i <= h.per ? "p" : (i === ovd ? "o" : (h.done ? "" : "cur"))) : "gap";
+      bars += `<i class="${c}"></i>`;
+    }
+    return `<div class="hrow"><span class="d">${dm(h.start)}${h.done ? "" : "<br><small class='muted'>hiện tại</small>"}</span><span class="hbar">${bars}</span><span class="len">${h.len}</span></div>`;
+  }).join("");
+
+  return `<div class="view">
+    <div class="stats">
+      <div class="stat"><span class="big">${m.avgLen}<small>ngày</small></span><span class="cap">Chu kỳ trung bình</span></div>
+      <div class="stat"><span class="big">${m.avgPer}<small>ngày</small></span><span class="cap">Hành kinh trung bình</span></div>
+      <div class="stat"><span class="big">${m.variation == null ? "–" : "±" + Math.ceil(m.variation/2)}<small>${m.variation == null ? "" : "ngày"}</small></span><span class="cap">${m.variation == null ? "Cần 3 chu kỳ để tính độ đều" : "Độ lệch chu kỳ"}</span></div>
+    </div>
+    <section><div class="sec-h"><h2>Sức khỏe chu kỳ</h2><span class="aside">${nC} chu kỳ đã ghi</span></div>
+      <div class="flags">${flags.length ? flags.map(f => `<div class="flag"><svg viewBox="0 0 24 24"><path d="M12 8v5M12 16.5v.5"/><circle cx="12" cy="12" r="9"/></svg><div><b>${f[0]}</b><p>${f[1]}</p></div></div>`).join("")
+        : `<div class="flag ok"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><div><b>${nC >= 2 ? "Chu kỳ đang ổn định" : "Đang thu thập dữ liệu"}</b><p>${nC >= 2 ? `Độ dài chu kỳ và kỳ kinh của ${her} nằm trong khoảng bình thường (21–35 ngày, hành kinh tối đa 7 ngày).` : `Sau 2–3 kỳ kinh, May sẽ dự đoán chính xác hơn và nhận ra điều bất thường nếu có.`}</p></div></div>`}</div>
+    </section>
+    <section><div class="sec-h"><h2>Các chu kỳ gần đây</h2><span class="aside">số ngày</span></div>
+      <div class="hist">${histRows}</div>
+      <div class="cal-legend" style="margin-top:12px"><span><i class="sw per" style="border-radius:3px"></i>Hành kinh</span><span><i class="sw" style="background:var(--ovul);border-radius:3px"></i>Rụng trứng ước tính</span></div>
+    </section>
+    <section><div class="sec-h"><h2>Cơ thể ${her} hay thế này</h2></div>
+      ${patRows ? `<div class="pattern">${patRows}</div><p class="small muted" style="margin-top:8px">Tỉ lệ số ngày có ghi nhận triệu chứng hoặc tâm trạng đó trong từng giai đoạn. Ghi càng đều, lời nhắn càng hiểu ${her}.</p>`
+        : `<p class="muted">Ghi triệu chứng và tâm trạng vài tuần, May sẽ tìm ra quy luật riêng của ${her}, ví dụ hay đau đầu trước kỳ kinh hay hay vui vẻ sau kỳ.</p>`}
+    </section>
+    <section><div class="sec-h"><h2>Hiểu về hoóc-môn</h2></div><div class="learn-stack">${LEARN.map(l => `<details class="learn"><summary>${l[0]}</summary><div class="body">${l[1]}</div></details>`).join("")}</div></section>
+  </div>`;
+}
+const LEARN = [
+  ["Bốn giai đoạn của chu kỳ", `<p><b>Hành kinh</b> (ngày 1–5): estrogen và progesterone thấp nhất, niêm mạc tử cung bong ra.</p><p><b>Nang trứng</b> (từ ngày 1 tới rụng trứng): FSH kích thích nang trứng, estrogen tăng dần, tâm trạng và năng lượng đi lên.</p><p><b>Rụng trứng</b> (khoảng 12–16 ngày trước kỳ sau): LH tăng vọt, trứng rụng trong 24–36 giờ.</p><p><b>Hoàng thể</b> (khoảng 14 ngày cuối): progesterone tăng rồi giảm. Những ngày cuối là lúc dễ bị tiền kinh nguyệt (PMS).</p>`],
+  ["Estrogen", `<p>Do nang trứng tiết ra, tăng dần trong nửa đầu chu kỳ và đạt đỉnh ngay trước khi rụng trứng, sau đó có một đợt tăng nhỏ giữa pha hoàng thể.</p><p>Estrogen đi cùng serotonin và dopamine, nên khi cao thường thấy vui, nhiều năng lượng, da đẹp. Khi tụt nhanh trước kỳ kinh, tâm trạng dễ chùng xuống.</p>`],
+  ["Progesterone", `<p>Do hoàng thể tiết ra sau khi rụng trứng, làm dày niêm mạc tử cung để đón phôi. Hoóc-môn này làm thân nhiệt tăng khoảng 0,3–0,5°C, gây buồn ngủ, nhanh đói, đầy hơi, căng ngực.</p><p>Vì thế đo nhiệt độ cơ thể mỗi sáng có thể xác nhận đã rụng trứng: May dùng quy tắc ba ngày nhiệt độ cao hơn sáu ngày trước đó.</p>`],
+  ["LH, FSH và testosterone", `<p><b>FSH</b> từ tuyến yên giúp nang trứng lớn lên đầu chu kỳ.</p><p><b>LH</b> tăng vọt 24–36 giờ trước khi rụng trứng. Que thử rụng trứng đo chính hoóc-môn này. Ghi kết quả que thử vào May để dự đoán chính xác hơn.</p><p><b>Testosterone</b> có lượng nhỏ, nhích lên quanh ngày rụng trứng, liên quan tới ham muốn và sự tự tin.</p>`],
+  ["Tiền kinh nguyệt (PMS)", `<p>Khoảng 5–7 ngày trước kỳ kinh, estrogen và progesterone cùng giảm nhanh. Nhiều người thấy cáu gắt, nhạy cảm, buồn, thèm ngọt, đầy bụng, nổi mụn, căng ngực.</p><p>Giúp giảm: ngủ đủ, vận động nhẹ, bớt muối, đường, cà phê, bổ sung magie và canxi. Nếu cảm xúc nặng tới mức ảnh hưởng công việc và các mối quan hệ (PMDD), nên gặp bác sĩ.</p>`],
+  ["May dự đoán như thế nào", `<p>Ngày tới tháng = ngày đầu kỳ gần nhất + độ dài chu kỳ trung bình có trọng số của tối đa 6 chu kỳ gần nhất (chu kỳ mới tính nặng hơn).</p><p>Ngày rụng trứng = ngày tới tháng dự kiến trừ độ dài pha hoàng thể (mặc định 14 ngày). Nếu có nhiệt độ cơ thể hoặc que thử LH dương tính, May dùng dữ liệu đó thay cho ước tính, và học độ dài pha hoàng thể riêng của ${esc(S.profile.her)}.</p><p>Cửa sổ thụ thai = 5 ngày trước tới 1 ngày sau rụng trứng, vì tinh trùng sống được tới 5 ngày.</p>`]
+];
+
+/* ---------- views: settings ---------- */
+function viewSettings(m){
+  const P = S.profile;
+  const nDays = Object.keys(S.days).length;
+  return `<div class="view">
+    <section><div class="sec-h"><h2>Chu kỳ</h2></div>
+      <div class="group">
+        <div class="row"><div class="rl">Độ dài chu kỳ<small>${m.valid && m.valid.length ? `Đang dùng ${m.avgLen} ngày từ dữ liệu thật` : "Dùng khi chưa đủ dữ liệu"}</small></div>${stepper("set-len", P.cycleLen)}</div>
+        <div class="row"><div class="rl">Số ngày hành kinh<small>Tự điền khi bấm "Kinh đến hôm nay"</small></div>${stepper("set-per", P.periodLen)}</div>
+        <div class="row"><div class="rl">Pha hoàng thể<small>${m.learnedLuteal ? `Đã học được: ${m.luteal} ngày` : "Từ rụng trứng tới kỳ sau, thường 12–16"}</small></div>${stepper("set-lut", P.luteal)}</div>
+      </div>
+    </section>
+    <section><div class="sec-h"><h2>Mục tiêu</h2></div>
+      <div class="seg" id="set-goal">${[["track","Chỉ theo dõi"],["avoid","Tránh thai"],["conceive","Mong em bé"]].map(([v,t]) => `<button data-v="${v}" aria-pressed="${P.goal === v}">${t}</button>`).join("")}</div>
+    </section>
+    <section><div class="sec-h"><h2>Sao lưu</h2><span class="aside">${S.lastBackup ? "Lần cuối " + dm(S.lastBackup.slice(0,10)) : "Chưa sao lưu"}</span></div>
+      <div class="stack">
+        <p class="small muted">Dữ liệu chỉ lưu trên trình duyệt của máy này (${nDays} ngày có ghi nhận). Nên sao lưu mỗi tháng, và thêm May vào Màn hình chính để Safari không tự xóa.</p>
+        <div class="btn-row"><button class="btn btn-ink" id="bk-file">Lưu file sao lưu</button><button class="btn btn-ghost" id="bk-copy">Sao chép dữ liệu</button></div>
+        <div class="btn-row"><label class="btn btn-ghost" for="bk-in">Khôi phục từ file</label><button class="btn btn-ghost" id="bk-paste-toggle">Dán dữ liệu</button></div>
+        <input type="file" id="bk-in" accept="application/json,.json,.txt" hidden>
+        <div id="paste-box" hidden><textarea class="paste" id="bk-paste" placeholder="Dán dữ liệu đã sao chép vào đây"></textarea><button class="btn btn-ink btn-small" id="bk-paste-go" style="margin-top:8px">Đọc dữ liệu</button></div>
+        ${pendingImport ? `<div class="confirm"><span>File có ${Object.keys(pendingImport.days).length} ngày ghi nhận. Khôi phục sẽ thay toàn bộ dữ liệu hiện tại.</span><div class="btn-row"><button class="btn btn-primary btn-small" id="imp-yes">Khôi phục</button><button class="btn btn-ghost btn-small" id="imp-no">Huỷ</button></div></div>` : ""}
+      </div>
+    </section>
+    <section><div class="sec-h"><h2>Cài lên màn hình chính</h2></div>
+      <p class="about">Trong Safari, bấm nút Chia sẻ (hình vuông có mũi tên lên) rồi chọn “Thêm vào MH chính”. May sẽ mở như một ứng dụng riêng, toàn màn hình.</p>
+    </section>
+    <section><div class="sec-h"><h2>Xoá dữ liệu</h2></div>
+      ${confirmClear ? `<div class="confirm"><span>Xoá toàn bộ ${nDays} ngày ghi nhận và cài đặt? Không thể hoàn tác.</span><div class="btn-row"><button class="btn btn-primary btn-small" id="clr-yes">Xoá hết</button><button class="btn btn-ghost btn-small" id="clr-no">Giữ lại</button></div></div>`
+        : `<button class="btn btn-danger" id="clr" style="width:100%">Xoá toàn bộ dữ liệu</button>`}
+    </section>
+    <section><div class="sec-h"><h2>Về May</h2></div>
+      <div class="about">
+        <p>May là món quà nhỏ để theo dõi chu kỳ và hiểu hoóc-môn thay đổi mỗi ngày. Các đường cong hoóc-môn là mô hình minh họa theo chu kỳ của ${esc(P.her)}, không phải kết quả xét nghiệm.</p>
+        <p>Dự đoán không thay thế lời khuyên của bác sĩ và không dùng làm biện pháp tránh thai.</p>
+        <p class="small muted">Tham khảo: ngưỡng chu kỳ bình thường của ACOG (21–35 ngày, hành kinh tối đa 7 ngày); cách tính rụng trứng của Clue (đếm lùi từ kỳ kinh dự kiến); nghiên cứu về độ chính xác của ứng dụng theo dõi kinh nguyệt, Women's Health 2021.</p>
+      </div>
+    </section>
+  </div>`;
+}
+
+/* ---------- log sheet ---------- */
+let sheetKey = null;
+function openSheet(k){
+  sheetKey = k;
+  const sh = $("#sheet"), sc = $("#scrim");
+  sh.innerHTML = sheetHTML(k);
+  sh.hidden = false; sc.hidden = false;
+  requestAnimationFrame(() => { sh.classList.add("on"); sc.classList.add("on"); });
+  document.body.style.overflow = "hidden";
+  bindSheet();
+}
+function closeSheet(){
+  const sh = $("#sheet"), sc = $("#scrim");
+  sh.classList.remove("on"); sc.classList.remove("on");
+  document.body.style.overflow = "";
+  setTimeout(() => { sh.hidden = true; sc.hidden = true; sh.innerHTML = ""; }, 260);
+  sheetKey = null; render();
+}
+$("#scrim").addEventListener("click", closeSheet);
+function sheetHTML(k){
+  const d = S.days[k] || {};
+  const one = (name, list, val) => `<div class="chips" data-one="${name}">${list.map(([v,t]) => `<button class="chip" data-v="${v}" aria-pressed="${String(val) === String(v)}">${t}</button>`).join("")}</div>`;
+  const many = (name, list, vals) => `<div class="chips" data-many="${name}">${list.map(([v,t]) => `<button class="chip" data-v="${v}" aria-pressed="${(vals||[]).includes(v)}">${t}</button>`).join("")}</div>`;
+  return `<div class="grab"></div>
+  <div class="sheet-head"><h2 id="sheet-title">${k === todayKey() ? "Hôm nay" : longDate(k)}<small>${k === todayKey() ? longDate(k) : "Ghi nhận"} · tự động lưu</small></h2><button class="btn btn-ink btn-small" id="sh-done">Xong</button></div>
+  <div class="sheet-body">
+    <div class="blk flow"><h3>Kinh nguyệt</h3>${one("flow", FLOW, d.flow||0)}
+      <div class="chips" style="margin-top:8px">${`<button class="chip" data-toggle="spot" aria-pressed="${!!d.spot}">Chỉ lấm tấm</button>`}</div></div>
+    <div class="blk"><h3>Tâm trạng</h3>${many("mood", MOOD, d.mood)}</div>
+    <div class="blk"><h3>Cơ thể</h3>${many("sym", SYM, d.sym)}</div>
+    <div class="blk"><h3>Năng lượng</h3>${one("energy", ENERGY, d.energy)}</div>
+    <div class="blk"><h3>Dịch tiết</h3>${one("disch", DISCH, d.disch)}</div>
+    <div class="blk"><h3>Nhiệt độ cơ thể buổi sáng</h3><div class="temp"><input id="sh-temp" type="text" inputmode="decimal" placeholder="36,45" value="${d.temp ? String(d.temp).replace(".",",") : ""}"><span class="muted small">°C · đo ngay khi thức dậy</span></div></div>
+    <div class="blk"><h3>Que thử rụng trứng</h3>${one("lh", LH, d.lh)}</div>
+    <div class="blk"><h3>Quan hệ</h3>${one("sex", SEX, d.sex)}</div>
+    <div class="blk"><h3>Ghi chú</h3><textarea class="note-in" id="sh-note" maxlength="500" placeholder="Hôm nay thế nào?">${esc(d.note||"")}</textarea></div>
+  </div>`;
+}
+function setDay(k, patch){
+  const d = { ...(S.days[k]||{}), ...patch };
+  Object.keys(d).forEach(x => { const v = d[x]; if(v === "" || v == null || v === false || v === 0 || (Array.isArray(v) && !v.length)) delete d[x]; });
+  if(Object.keys(d).length) S.days[k] = d; else delete S.days[k];
+  save();
+}
+function bindSheet(){
+  const sh = $("#sheet"), k = sheetKey;
+  $("#sh-done").addEventListener("click", closeSheet);
+  $$("[data-one]", sh).forEach(grp => grp.addEventListener("click", e => {
+    const b = e.target.closest(".chip"); if(!b) return;
+    const name = grp.dataset.one, cur = (S.days[k]||{})[name];
+    let v = name === "flow" ? Number(b.dataset.v) : b.dataset.v;
+    if(name !== "flow" && String(cur) === String(v)) v = "";
+    setDay(k, { [name]:v });
+    $$(".chip", grp).forEach(c => c.setAttribute("aria-pressed", String(c.dataset.v) === String(v) && v !== ""));
+    if(name === "flow" && v === 0) $$(".chip", grp)[0].setAttribute("aria-pressed","true");
+  }));
+  $$("[data-many]", sh).forEach(grp => grp.addEventListener("click", e => {
+    const b = e.target.closest(".chip"); if(!b) return;
+    const name = grp.dataset.many, arr = [...((S.days[k]||{})[name]||[])], v = b.dataset.v, i = arr.indexOf(v);
+    if(i >= 0) arr.splice(i,1); else arr.push(v);
+    setDay(k, { [name]:arr }); b.setAttribute("aria-pressed", i < 0);
+  }));
+  $$("[data-toggle]", sh).forEach(b => b.addEventListener("click", () => {
+    const name = b.dataset.toggle, v = !(S.days[k]||{})[name]; setDay(k, { [name]:v }); b.setAttribute("aria-pressed", v);
+  }));
+  const temp = $("#sh-temp");
+  temp.addEventListener("change", () => {
+    const raw = temp.value.trim().replace(",",".");
+    if(!raw){ setDay(k,{ temp:"" }); return; }
+    const v = parseFloat(raw);
+    if(isNaN(v) || v < 34 || v > 42){ toast("Nhiệt độ nên trong khoảng 34–42°C, ví dụ 36,45"); return; }
+    setDay(k, { temp:Math.round(v*100)/100 });
+  });
+  const note = $("#sh-note"); let tm;
+  note.addEventListener("input", () => { clearTimeout(tm); tm = setTimeout(() => setDay(k,{ note:note.value }), 300); });
+  note.addEventListener("blur", () => setDay(k,{ note:note.value }));
+}
+
+/* ---------- toast ---------- */
+let toastT;
+function toast(msg, undo){
+  const t = $("#toast");
+  t.innerHTML = `<span>${esc(msg)}</span>${undo ? `<button id="undo">Hoàn tác</button>` : ""}`;
+  t.classList.add("on"); clearTimeout(toastT);
+  if(undo) $("#undo").addEventListener("click", () => { undo(); t.classList.remove("on"); });
+  toastT = setTimeout(() => t.classList.remove("on"), undo ? 6000 : 3200);
+}
+const snapshot = () => JSON.stringify(S.days);
+const restore = snap => { S.days = JSON.parse(snap); save(); render(); };
+
+/* ---------- actions ---------- */
+function startPeriod(k, len){
+  for(let i = 0; i < len; i++){ const d = addDays(k,i); const cur = S.days[d] || {}; if(!(cur.flow > 0)) setDay(d, { flow: i < 3 ? 2 : 1 }); }
+}
+function bind(m){
+  const T = todayKey();
+  if(tab === "today" && m.empty){
+    const read = () => { onbDraft.start = $("#onb-start").value || onbDraft.start; };
+    $$("[data-stepper]").forEach(st => st.addEventListener("click", e => {
+      const b = e.target.closest("button"); if(!b) return; read();
+      const id = st.dataset.stepper, key = id === "onb-per" ? "per" : "len";
+      const lim = key === "per" ? [2,10] : [18,50];
+      onbDraft[key] = Math.min(lim[1], Math.max(lim[0], onbDraft[key] + Number(b.dataset.d)));
+      $("#"+id).textContent = onbDraft[key];
+    }));
+    $("#onb-go").addEventListener("click", () => {
+      read();
+      const st = onbDraft.start;
+      if(!st || st > T){ toast("Chọn ngày bắt đầu kỳ kinh gần nhất (không sau hôm nay)."); return; }
+      S.profile.periodLen = onbDraft.per; S.profile.cycleLen = onbDraft.len;
+      startPeriod(st, onbDraft.per); save(); onbDraft = null; render();
+    });
+    $("#onb-sample").addEventListener("click", () => { loadSample(); render(); });
+    return;
+  }
+  if(tab === "today"){
+    const a = $("#act-start");
+    if(a) a.addEventListener("click", () => {
+      const snap = snapshot(); startPeriod(T, m.avgPer); render();
+      toast(`Đã ghi kỳ kinh từ hôm nay, dự kiến ${m.avgPer} ngày`, () => restore(snap));
+    });
+    const e = $("#act-end");
+    if(e) e.addEventListener("click", () => {
+      const snap = snapshot(); let removed = 0;
+      for(let k = addDays(T,1); k <= addDays(m.end, 2); k = addDays(k,1)) if(S.days[k] && S.days[k].flow > 0){ setDay(k,{ flow:0 }); removed++; }
+      render(); toast(removed ? "Đã ghi hôm nay là ngày cuối kỳ kinh" : "Hôm nay đã là ngày cuối rồi", removed ? () => restore(snap) : null);
+    });
+    const cont = $("#act-cont");
+    if(cont) cont.addEventListener("click", () => {
+      const snap = snapshot();
+      for(let k = addDays(m.end,1); k <= T; k = addDays(k,1)) setDay(k, { flow:1 });
+      render(); toast("Đã ghi hôm nay vẫn còn kinh", () => restore(snap));
+    });
+    const po = $("#pick-open"); if(po) po.addEventListener("click", () => { pickStart = true; render(); $("#pick-date").focus(); });
+    const pg = $("#pick-go");
+    if(pg) pg.addEventListener("click", () => {
+      const k = $("#pick-date").value;
+      if(!k || k > T){ toast("Chọn một ngày từ hôm nay trở về trước"); return; }
+      const snap = snapshot(); startPeriod(k, m.avgPer); pickStart = false; render();
+      toast(`Đã ghi kỳ kinh bắt đầu ${dm(k)}`, () => restore(snap));
+    });
+    $("#act-log").addEventListener("click", () => openSheet(T));
+    const cs = $("#clear-sample"); if(cs) cs.addEventListener("click", () => { S = DEFAULTS(); save(); render(); });
+    const gb = $("#go-backup"); if(gb) gb.addEventListener("click", () => setTab("settings"));
+    $$(".lg").forEach(b => b.addEventListener("click", () => { hiddenH[b.dataset.h] = !hiddenH[b.dataset.h]; render(); }));
+    bindChart(m);
+  }
+  if(tab === "cal"){
+    $("#cal-prev").addEventListener("click", () => { calMonth.m--; if(calMonth.m < 0){ calMonth.m = 11; calMonth.y--; } render(); });
+    $("#cal-next").addEventListener("click", () => { calMonth.m++; if(calMonth.m > 11){ calMonth.m = 0; calMonth.y++; } render(); });
+    $("#grid").addEventListener("click", e => {
+      const b = e.target.closest(".day"); if(!b) return; const k = b.dataset.k;
+      if(editMode){
+        if(k > T){ toast("Chưa tới ngày này"); return; }
+        const cur = S.days[k] || {}; setDay(k, { flow: cur.flow > 0 ? 0 : 2 }); render(); return;
+      }
+      selDay = k;
+      const d = parse(k); if(d.getMonth() !== calMonth.m){ calMonth = { y:d.getFullYear(), m:d.getMonth() }; }
+      render();
+    });
+    const on = $("#edit-on"); if(on) on.addEventListener("click", () => { editMode = true; render(); });
+    const dn = $("#edit-done"); if(dn) dn.addEventListener("click", () => { editMode = false; render(); });
+    const ct = $("#cal-today"); if(ct) ct.addEventListener("click", () => { calMonth = null; selDay = T; render(); });
+    const sl = $("#sel-log"); if(sl) sl.addEventListener("click", () => openSheet(selDay));
+  }
+  if(tab === "settings") bindSettings();
+}
+function bindChart(m){
+  const wrap = $("#hchart"); if(!wrap) return;
+  const svg = $("svg", wrap), cur = $("#cursor", wrap);
+  const L = Math.max(m.avgLen, Math.min(m.cd, m.avgLen + 14));
+  const show = x => { cur.innerHTML = cursorSVG(m, x); $("#readout").innerHTML = readout(m, x); };
+  show(scrubX || Math.min(m.cd, L));
+  const fromEvt = e => {
+    const r = svg.getBoundingClientRect(); const px = (e.clientX - r.left) / r.width * CH.W;
+    return Math.max(1, Math.min(L, Math.round(1 + (px - CH.l) / (CH.W-CH.l-CH.r) * (L-1))));
+  };
+  let active = false;
+  svg.addEventListener("pointerdown", e => { active = true; scrubX = fromEvt(e); show(scrubX); });
+  svg.addEventListener("pointermove", e => { if(active || e.pointerType === "mouse"){ scrubX = fromEvt(e); show(scrubX); } });
+  const end = () => { active = false; scrubX = null; show(Math.min(m.cd, L)); };
+  svg.addEventListener("pointerup", () => { active = false; });
+  svg.addEventListener("pointerleave", end);
+  svg.addEventListener("pointercancel", end);
+}
+function bindSettings(){
+  const P = S.profile;
+  const lims = { "set-len":["cycleLen",18,50], "set-per":["periodLen",2,10], "set-lut":["luteal",10,17] };
+  $$("[data-stepper]").forEach(st => st.addEventListener("click", e => {
+    const b = e.target.closest("button"); if(!b) return;
+    const [key,lo,hi] = lims[st.dataset.stepper];
+    P[key] = Math.min(hi, Math.max(lo, P[key] + Number(b.dataset.d))); save(); $("#"+st.dataset.stepper).textContent = P[key];
+  }));
+  $("#set-goal").addEventListener("click", e => { const b = e.target.closest("button"); if(!b) return; P.goal = b.dataset.v; save(); render(); });
+  const payload = () => JSON.stringify({ app:"May", exported:new Date().toISOString(), ...S }, null, 0);
+  const markBackup = () => { S.lastBackup = new Date().toISOString(); save(); };
+  $("#bk-file").addEventListener("click", async () => {
+    const name = `may-sao-luu-${todayKey()}.json`, data = payload();
+    try{
+      const file = new File([data], name, { type:"application/json" });
+      if(navigator.canShare && navigator.canShare({ files:[file] })){ await navigator.share({ files:[file], title:"Sao lưu May" }); markBackup(); render(); toast("Đã sao lưu"); return; }
+    }catch(err){ if(err && err.name === "AbortError") return; }
+    try{
+      const url = URL.createObjectURL(new Blob([data], { type:"application/json" }));
+      const a = document.createElement("a"); a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 2000); markBackup(); render(); toast("Đã tải file sao lưu");
+    }catch(err){ toast("Không lưu được file. Dùng nút Sao chép dữ liệu nhé."); }
+  });
+  $("#bk-copy").addEventListener("click", () => {
+    const data = payload();
+    navigator.clipboard.writeText(data).then(() => { markBackup(); render(); toast("Đã sao chép. Dán vào Ghi chú hoặc gửi cho chính mình để giữ."); })
+      .catch(() => { $("#paste-box").hidden = false; const ta = $("#bk-paste"); ta.value = data; ta.focus(); ta.select(); toast("Hãy bấm giữ và chọn Sao chép"); });
+  });
+  $("#bk-paste-toggle").addEventListener("click", () => { const b = $("#paste-box"); b.hidden = !b.hidden; });
+  const parseImport = txt => {
+    try{ const d = JSON.parse(txt); if(!d || typeof d.days !== "object") throw 0; pendingImport = d; render(); }
+    catch(e){ toast("Dữ liệu không đúng định dạng sao lưu của May"); }
+  };
+  $("#bk-paste-go").addEventListener("click", () => parseImport($("#bk-paste").value.trim()));
+  $("#bk-in").addEventListener("change", e => { const f = e.target.files[0]; if(!f) return; const r = new FileReader(); r.onload = () => parseImport(String(r.result)); r.readAsText(f); });
+  const iy = $("#imp-yes"); if(iy) iy.addEventListener("click", () => {
+    const base = DEFAULTS(), d = pendingImport;
+    S = { ...base, profile:{ ...base.profile, ...(d.profile||{}) }, days:d.days, lastBackup:d.lastBackup||null, sample:!!d.sample };
+    pendingImport = null; save(); render(); toast("Đã khôi phục dữ liệu");
+  });
+  const ino = $("#imp-no"); if(ino) ino.addEventListener("click", () => { pendingImport = null; render(); });
+  const c = $("#clr"); if(c) c.addEventListener("click", () => { confirmClear = true; render(); });
+  const cy = $("#clr-yes"); if(cy) cy.addEventListener("click", () => { S = DEFAULTS(); save(); confirmClear = false; tab = "today"; render(); toast("Đã xoá toàn bộ dữ liệu"); });
+  const cn = $("#clr-no"); if(cn) cn.addEventListener("click", () => { confirmClear = false; render(); });
+}
+
+/* ---------- sample data (marked as sample) ---------- */
+function loadSample(){
+  S = DEFAULTS(); S.sample = true;
+  const T = todayKey(), lens = [29,27,30,28,29];
+  let start = addDays(T, -24);
+  const starts = [start];
+  for(let i = lens.length-1; i >= 0; i--){ start = addDays(start, -lens[i]); starts.unshift(start); }
+  const rnd = (seed) => (hash(seed) % 1000) / 1000;
+  starts.forEach((s, ci) => {
+    const per = 5 + (ci % 2);
+    for(let i = 0; i < per; i++) S.days[addDays(s,i)] = { flow: i === 0 ? 2 : i < 3 ? 3 : 1 };
+    const next = starts[ci+1] || addDays(s, 28);
+    S.days[s].sym = ["dau-bung","met"]; S.days[s].mood = ["nhay-cam"];
+    S.days[addDays(s,1)].sym = ["dau-bung","dau-lung"];
+    const ov = addDays(next, -14);
+    for(let k = addDays(s, per); k < next && k <= T; k = addDays(k,1)){
+      const toN = diff(k, next), r = rnd(k);
+      const d = S.days[k] || {};
+      if(toN <= 5 && toN > 0){
+        d.mood = r < 0.7 ? ["cau"] : ["nhay-cam"]; if(r > 0.5) d.mood.push("de-khoc");
+        d.sym = r < 0.6 ? ["day-hoi","them-ngot"] : ["cang-nguc","mun"];
+      } else if(k >= addDays(ov,-3) && k <= ov){
+        if(r < 0.6){ d.mood = ["vui","hung-khoi"]; d.disch = "long-trang"; }
+      } else if(k < ov && r < 0.35){ d.mood = ["vui"]; d.energy = "cao"; }
+      else if(k > ov && r < 0.3){ d.sym = ["met"]; d.energy = "thap"; }
+      if(Object.keys(d).length && k <= T) S.days[k] = d;
+    }
+  });
+  save();
+}
+
+/* ---------- boot ---------- */
+render();
+document.addEventListener("visibilitychange", () => { if(!document.hidden && !sheetKey) render(); });
+})();
+</script>
+<!--ART-END-->
+</body>
+</html>
