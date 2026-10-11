@@ -2086,10 +2086,24 @@ function loadSample(){
   save();
 }
 
+/* ---------- updates ---------- */
+// Home Screen apps on iPhone can keep showing a cached old copy after an update.
+// On each open, ask the server for the current page; if its BUILD differs, reload once.
+const BUILD = "2026-10-11.3";
+function checkUpdate(){
+  if(location.protocol === "file:") return;
+  try{ if(sessionStorage.getItem("may.upd") === BUILD) return; }catch(e){}
+  fetch(location.pathname, { cache:"no-cache" }).then(r => r.ok ? r.text() : "").then(t => {
+    const mm = t.match(/const BUILD = "([^"]+)"/);
+    if(mm && mm[1] !== BUILD){ try{ sessionStorage.setItem("may.upd", BUILD); }catch(e){} location.reload(); }
+  }).catch(() => {});
+}
+
 /* ---------- boot ---------- */
 loadPartner();
 render();
 renderLock();
+checkUpdate();
 document.addEventListener("visibilitychange", () => {
   if(document.hidden){ hiddenAt = Date.now(); return; }
   if(S.pin && hiddenAt && Date.now() - hiddenAt > 60000){ locked = true; lockEntry = ""; renderLock(); }
