@@ -169,6 +169,31 @@ main{max-width:560px;margin:0 auto;padding-inline:16px;padding-block:4px calc(va
 .logsum{display:flex;flex-wrap:wrap;gap:6px}
 .tag{font-size:13px;padding:4px 10px;border-radius:999px;background:var(--sunk);color:var(--ink-2)}
 .tag.p{background:var(--period-soft);color:var(--period);font-weight:600}
+.tag.w{background:var(--warn-soft);color:var(--warn);font-weight:600}
+.dcard{background:var(--surface);border-radius:var(--r-m);box-shadow:var(--shadow);padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px}
+.dcard .sec-h{margin-bottom:0}
+.dcard p{font-size:14.5px;line-height:1.55;color:var(--ink-2)}
+.dcard .dtitle{font-family:var(--f-display);font-size:17px;font-weight:700;color:var(--ink)}
+.dchips{display:flex;flex-wrap:wrap;gap:6px}
+.dch{font-size:13px;padding:4px 10px;border-radius:999px;box-shadow:inset 0 0 0 1px var(--line);color:var(--muted)}
+.dch.exp{background:var(--tone-soft);box-shadow:inset 0 0 0 1px var(--tone);color:var(--ink);font-weight:600}
+.dch.me::after{content:" · hôm nay";font-weight:600;color:var(--ink)}
+.dnote{padding:10px 12px;border-radius:var(--r-s);background:var(--sunk)}
+.dnote.ok{background:var(--ok-soft)}
+.dnote.w{background:var(--warn-soft)}
+.dmap{background:var(--surface);border-radius:var(--r-m);box-shadow:var(--shadow);padding:12px 14px;display:flex;flex-direction:column;gap:4px}
+.drow{display:grid;grid-template-columns:72px 1fr;gap:8px;align-items:center;font-size:12.5px}
+.dl{color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dcells{display:flex;gap:1px;height:16px;min-width:0}
+.dcells i{flex:1;min-width:0;border-radius:2px;background:var(--sunk)}
+.dcells i.l1{background:var(--luteal);opacity:.35}
+.dcells i.l2{background:var(--luteal);opacity:.65}
+.dcells i.l3{background:var(--luteal)}
+.dcells.axis{height:6px}
+.dcells.axis i{background:transparent}
+.dcells.axis i.p{background:var(--period)}
+.dcells.axis i.o{background:var(--ovul)}
+.dscale{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
 
 .banner{display:flex;gap:12px;align-items:center;justify-content:space-between;background:var(--warn-soft);border-radius:var(--r-m);padding:10px 12px 10px 14px;font-size:13.5px}
 .banner .btn{flex:none}
@@ -425,7 +450,8 @@ const LH = [["am","Âm tính"],["duong","Dương tính"]];
 const PREG = [["am","Âm tính"],["duong","Dương tính"]];
 const SEX = [["bv","Có bảo vệ"],["kbv","Không bảo vệ"]];
 const BC = [["none","Không dùng"],["pill","Thuốc uống"],["other","Cách khác"]];
-const LABEL = Object.fromEntries([...SYM,...MOOD,...DISCH]);
+const DSIGN = [["vang-xanh","Vàng đậm hoặc xanh"],["xam","Xám, loãng"],["ba-dau","Vón cục như bã đậu"],["mui-hoi","Mùi hôi, tanh"],["co-bot","Có bọt"],["lan-mau","Lẫn máu ngoài kỳ"],["rat","Rát, buốt khi tiểu"]];
+const LABEL = Object.fromEntries([...SYM,...MOOD,...DISCH,...DSIGN]);
 const SLEEP_LABEL = Object.fromEntries(SLEEP);
 
 /* ---------- helpers ---------- */
@@ -440,7 +466,7 @@ function fill(t, n){
   return t.replace(/\{V\}/g,esc(cap(her))).replace(/\{v\}/g,esc(her)).replace(/\{A\}/g,esc(cap(him))).replace(/\{a\}/g,esc(him)).replace(/\{n\}/g,n);
 }
 const dayLog = k => S.days[k] || null;
-function hasLog(d){ return d && ((d.flow>0)||d.spot||(d.sym&&d.sym.length)||(d.mood&&d.mood.length)||d.energy||d.disch||d.temp||d.lh||d.sex||d.libido||d.sleep||d.water||d.weight||d.preg||d.pill||(d.note&&d.note.trim())); }
+function hasLog(d){ return d && ((d.flow>0)||d.spot||(d.sym&&d.sym.length)||(d.mood&&d.mood.length)||d.energy||d.disch||(d.dsign&&d.dsign.length)||d.temp||d.lh||d.sex||d.libido||d.sleep||d.water||d.weight||d.preg||d.pill||(d.note&&d.note.trim())); }
 // Small tags describing a day's log, shared by Today, the calendar panel and the doctor report.
 function logTags(d, full){
   const t = [];
@@ -450,7 +476,8 @@ function logTags(d, full){
   [...(d.sym||[]),...(d.mood||[])].forEach(x => LABEL[x] && t.push(["", LABEL[x]]));
   if(full && d.energy) t.push(["", `Năng lượng ${ENERGY.find(e => e[0] === d.energy)[1].toLowerCase()}`]);
   if(d.libido) t.push(["", `Ham muốn ${LIBIDO.find(e => e[0] === d.libido)[1].toLowerCase()}`]);
-  if(d.disch && full) t.push(["", `Dịch: ${LABEL[d.disch].toLowerCase()}`]);
+  if(d.disch && full) t.push(["", `Khí hư: ${LABEL[d.disch].toLowerCase()}`]);
+  (d.dsign||[]).forEach(x => LABEL[x] && t.push(["w", `Khí hư: ${LABEL[x].toLowerCase()}`]));
   if(d.sleep) t.push(["", `Ngủ ${SLEEP_LABEL[d.sleep].toLowerCase()}`]);
   if(d.water) t.push(["", `${d.water} cốc nước`]);
   if(d.weight) t.push(["", `${String(d.weight).replace(".",",")} kg`]);
@@ -594,7 +621,7 @@ const PH = {
   men1:{ name:"Hành kinh", tone:"t-period", body:"Estrogen và progesterone đều xuống mức thấp nhất trong tháng. Niêm mạc tử cung bong ra, cơ thể tiết prostaglandin làm tử cung co bóp, nên dễ đau bụng, mỏi lưng và mệt." },
   men2:{ name:"Hành kinh", tone:"t-period", body:"Kỳ kinh đang về cuối. FSH kích thích những nang trứng mới lớn lên, estrogen bắt đầu nhích lại, nên sức lực hồi phục dần từng ngày." },
   foll:{ name:"Nang trứng", tone:"t-foll", body:"Estrogen tăng đều mỗi ngày, kéo serotonin và dopamine lên theo. Thường đây là lúc thấy vui, minh mẫn, nhiều năng lượng và da đẹp nhất tháng." },
-  fert:{ name:"Cửa sổ thụ thai", tone:"t-fert", body:"Estrogen sắp chạm đỉnh, LH chuẩn bị tăng vọt. Dịch tiết thường trong và dai như lòng trắng trứng. Đây là những ngày dễ có thai nhất." },
+  fert:{ name:"Cửa sổ thụ thai", tone:"t-fert", body:"Estrogen sắp chạm đỉnh, LH chuẩn bị tăng vọt. Khí hư thường trong và dai như lòng trắng trứng. Đây là những ngày dễ có thai nhất." },
   ov:  { name:"Ngày rụng trứng", tone:"t-ov", body:"LH tăng vọt và trứng rụng trong khoảng 24–36 giờ sau đó. Estrogen ở đỉnh, testosterone nhích lên nên thường tự tin và ham muốn cao hơn. Có thể đau nhói nhẹ một bên bụng dưới." },
   lut1:{ name:"Hoàng thể", tone:"t-lut", body:"Sau rụng trứng, hoàng thể tiết progesterone, thân nhiệt tăng khoảng 0,3–0,5°C. Người dịu lại nhưng dễ buồn ngủ và nhanh đói hơn." },
   lut2:{ name:"Hoàng thể", tone:"t-lut", body:"Progesterone ở mức cao nhất, estrogen có thêm một đợt tăng nhỏ. Dễ đầy hơi, căng ngực, thèm ngọt và chỉ muốn ở nhà." },
@@ -636,7 +663,7 @@ const CARE = {
           "Ngủ đủ giấc để giữ năng lượng tốt cho cả tháng."]
   },
   fert:{
-    an:["Uống đủ nước, dịch tiết sẽ đều và cơ thể dễ chịu hơn.",
+    an:["Uống đủ nước, khí hư sẽ đều và cơ thể dễ chịu hơn.",
         "Thêm rau lá xanh, trứng, các loại hạt giàu kẽm và folate.",
         "Ăn nhẹ, chia nhỏ bữa nếu thấy đầy bụng quanh ngày rụng trứng.",
         "Nếu đang mong em bé, nên bổ sung axit folic mỗi ngày."],
@@ -644,7 +671,7 @@ const CARE = {
          "Estrogen cao làm dây chằng mềm hơn, khởi động kỹ trước khi tập.",
          "Chạy bộ, đạp xe, bơi đều hợp lúc này.",
          "Đau nhói một bên bụng dưới thì giảm cường độ và nghỉ một chút."],
-    cham:["Dịch tiết trong, dai như lòng trắng trứng là dấu hiệu sắp rụng trứng.",
+    cham:["Khí hư trong, dai như lòng trắng trứng là dấu hiệu sắp rụng trứng.",
           "Nếu chưa muốn có em bé, nhớ dùng biện pháp bảo vệ mấy ngày này.",
           "Que thử rụng trứng nên thử vào buổi chiều, ghi kết quả vào May.",
           "Đau nhẹ giữa kỳ (mittelschmerz) là bình thường, thường hết sau 1–2 ngày."]
@@ -771,7 +798,7 @@ const PARTS = {
     o:["Estrogen của {v} sắp lên đỉnh, LH chuẩn bị tăng vọt.",
        "{V} đang trong cửa sổ thụ thai, những ngày dễ có em bé nhất.",
        "Nang trứng của {v} đã gần trưởng thành và sẵn sàng rụng.",
-       "Estrogen cao làm dịch tiết của {v} trong và dai hơn.",
+       "Estrogen cao làm khí hư của {v} trong và dai hơn.",
        "Cơ thể {v} đang chuẩn bị cho lần rụng trứng sắp tới.",
        "Hoóc-môn của {v} đang ở giai đoạn cao điểm của tháng."],
     f:["{V} sẽ thấy tự tin, xinh hơn và tình cảm hơn một chút.",
@@ -965,7 +992,9 @@ const EXTRA = {
         "{A} nhắc nhẹ: thuốc hôm nay {v} uống chưa?",
         "Uống thuốc đúng giờ mỗi ngày nha {v}, uống xong bấm \"Đã uống\" cho {a} yên tâm."],
   preg:["Que thử báo dương tính. Dù kết quả thế nào {a} cũng ở đây với {v}. Mình đi khám để bác sĩ xác nhận nhé.",
-        "{A} thấy {v} ghi que thử dương tính. Đừng lo một mình, mình cùng đi khám cho chắc nha."]
+        "{A} thấy {v} ghi que thử dương tính. Đừng lo một mình, mình cùng đi khám cho chắc nha."],
+  dsign:["{A} thấy khí hư hôm nay hơi lạ. Nếu 2–3 ngày chưa hết thì mình đi khám phụ khoa nha, {a} đưa {v} đi.",
+         "Khí hư khác thường thì {v} đừng tự thụt rửa hay mua thuốc đặt, mình đi khám cho đúng bệnh nha."]
 };
 
 function chooseParts(T, ph, n){
@@ -1033,6 +1062,7 @@ function buildMessage(m){
   }
   const ex = [];
   if(pregSince(m)) ex.push(extra(r,T,"preg"));
+  if(d.dsign && d.dsign.length) ex.push(extra(r,T,"dsign"));
   if(S.profile.bc === "pill" && !d.pill) ex.push(extra(r,T,"pill"));
   if(ph !== "late" && !m.inPeriod){
     if(m.toNext === 1) ex.push(extra(r,T,"due1"));
@@ -1116,6 +1146,37 @@ function stepper(id, val, unit){
 }
 
 /* ---------- views: today ---------- */
+/* ---------- discharge (khí hư) by phase ---------- */
+const DPHASE = { men1:"men", men2:"men", foll:"foll", fert:"fert", ov:"ov", lut1:"lut", lut2:"lut", pms:"pms", late:"late" };
+const DGUIDE = {
+  men:{ exp:[], title:"Đang có kinh", body:"Máu kinh che mất khí hư nên mấy ngày này khó nhận ra. Thay băng mỗi 4–6 giờ, tampon tối đa 8 giờ để tránh viêm.", why:"Estrogen và progesterone đều thấp nhất tháng." },
+  foll:{ exp:["kho","dinh"], title:"Khô hoặc ít, hơi dính", body:"Sau kỳ kinh vài ngày thường thấy khô, hoặc ít dịch màu trắng đục, dính, vón nhẹ khi kéo giữa hai ngón tay.", why:"Estrogen mới bắt đầu tăng lại nên cổ tử cung tiết ít dịch." },
+  fert:{ exp:["kem","long-trang"], title:"Nhiều dần, như kem rồi trong hơn", body:"Khí hư tăng lên mỗi ngày, chuyển từ như kem, trắng sữa sang ướt, trong hơn. Thấy ẩm hơn khi mặc quần lót là bình thường.", why:"Estrogen tăng nhanh trước rụng trứng làm cổ tử cung tiết nhiều dịch, giúp tinh trùng đi lên dễ hơn." },
+  ov:{ exp:["long-trang","nuoc"], title:"Trong, trơn, kéo sợi", body:"Giống lòng trắng trứng sống: trong, trơn, kéo dài được 3–5 cm giữa hai ngón tay không đứt. Ngày cuối có dịch kiểu này thường là ngày dễ thụ thai nhất.", why:"Estrogen ở đỉnh. Dịch lúc này nhiều nước và có cấu trúc như những sợi kênh dẫn tinh trùng." },
+  lut:{ exp:["dinh","kem","kho"], title:"Đặc lại, đục, ít hơn", body:"Sau rụng trứng 1–2 ngày khí hư chuyển đặc, đục, dính hoặc khô. Khi khô trên quần lót có thể ngả vàng nhạt, đó là bình thường.", why:"Progesterone làm dịch cổ tử cung đặc lại thành nút nhầy, đóng cổ tử cung." },
+  pms:{ exp:["kem","dinh","nuoc"], title:"Có thể ướt hơn, đôi khi hơi nâu", body:"Vài ngày trước kỳ kinh có người thấy khí hư trắng đục và ướt hơn. Ngay trước khi có kinh có thể lẫn chút nâu hoặc hồng nhạt, là máu cũ.", why:"Progesterone và estrogen cùng giảm, niêm mạc tử cung chuẩn bị bong." },
+  late:{ exp:["kem","nuoc"], title:"Theo dõi thêm", body:"Nếu có thai, khí hư thường nhiều hơn, trắng sữa, loãng, mùi nhẹ. Nếu không, chu kỳ có thể chỉ đang rụng trứng muộn, khí hư sẽ đi theo giai đoạn thật của cơ thể.", why:"Progesterone duy trì cao khi có thai, hoặc rụng trứng bị lùi do căng thẳng, ốm, thiếu ngủ." },
+  pill:{ exp:["dinh","kem"], title:"Khá đều cả tháng", body:"Thuốc tránh thai kết hợp ngăn rụng trứng nên thường không có những ngày khí hư trong, kéo sợi. Khí hư đặc, đục, đều đều là bình thường.", why:"Lượng hoóc-môn trong thuốc ổn định mỗi ngày nên cơ thể không có đỉnh estrogen." }
+};
+function dischCard(m, d){
+  const key = S.profile.bc === "pill" && !m.inPeriod ? "pill" : DPHASE[m.phase], g = DGUIDE[key], her = esc(S.profile.her);
+  const chips = DISCH.map(([v,t]) => `<span class="dch${g.exp.includes(v) ? " exp" : ""}${d.disch === v ? " me" : ""}">${t}</span>`).join("");
+  let cmp = "";
+  if(d.dsign && d.dsign.length) cmp = `<p class="dnote w">Hôm nay ${her} ghi: ${d.dsign.map(x => LABEL[x].toLowerCase()).join(", ")}. Đây không phải khí hư theo chu kỳ. Nếu kéo dài 2–3 ngày hoặc kèm ngứa, đau, sốt, nên đi khám phụ khoa.</p>`;
+  else if(d.disch && g.exp.length) cmp = g.exp.includes(d.disch)
+    ? `<p class="dnote ok">Hôm nay ${her} ghi “${LABEL[d.disch].toLowerCase()}”, khớp với giai đoạn này.</p>`
+    : `<p class="dnote">Hôm nay ${her} ghi “${LABEL[d.disch].toLowerCase()}”, hơi khác so với thường gặp. Một vài ngày lệch là bình thường vì ngày rụng trứng mỗi tháng có thể sớm hoặc muộn hơn dự đoán.</p>`;
+  else if(!m.inPeriod) cmp = `<p class="small muted">Ghi khí hư mỗi ngày trong mục Ghi nhận, May sẽ so với giai đoạn và vẽ quy luật riêng của ${her} ở tab Nhìn lại.</p>`;
+  return `<section class="dcard">
+    <div class="sec-h"><h2>Khí hư lúc này</h2><span class="aside">${key === "pill" ? "đang uống thuốc" : PH[m.phase].name.toLowerCase()}</span></div>
+    <p class="dtitle">${g.title}</p>
+    ${g.exp.length ? `<div class="dchips" aria-label="Các kiểu khí hư, kiểu thường gặp lúc này được tô đậm">${chips}</div>` : ""}
+    <p>${g.body}</p>
+    <p class="small muted"><b>Vì sao:</b> ${g.why}</p>
+    ${cmp}
+  </section>`;
+}
+
 function viewToday(m){
   const T = m.T, ph = PH[m.phase];
   const msg = buildMessage(m);
@@ -1195,6 +1256,7 @@ function viewToday(m){
       <div class="sec-h"><h2>Hôm nay nên</h2><span class="aside">đổi mỗi ngày</span></div>
       <div class="tips">${tips.map(([c,t]) => `<div class="tip"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span><b class="tip-cat">${c}</b>${t}</span></div>`).join("")}</div>
     </section>
+    ${dischCard(m, today)}
     ${backupDue ? `<div class="banner"><span>Đã lâu chưa sao lưu dữ liệu.</span><button class="btn btn-small btn-ghost" id="go-backup">Sao lưu</button></div>` : ""}
     <p class="small muted">Dự đoán dựa trên lịch sử chu kỳ, không thay thế lời khuyên của bác sĩ và không dùng làm biện pháp tránh thai.</p>
   </div>`;
@@ -1328,6 +1390,17 @@ function healthFlags(m){
   let spots = 0; Object.entries(S.days).forEach(([k,d]) => { if(d.spot && !(d.flow > 0) && diff(k, m.T) <= 90) spots++; });
   if(spots >= 3) flags.push(["Ra máu lấm tấm giữa kỳ", `${spots} lần trong 3 tháng gần đây. Thỉnh thoảng thì không sao, nhưng nếu thường xuyên nên hỏi bác sĩ.`]);
   if(m.cd > 90 && !m.inPeriod) flags.push(["Đã lâu chưa có kinh", "Hơn 90 ngày chưa có kinh. Nên đi khám phụ khoa."]);
+  const ds = {}; let dsDays = 0;
+  Object.entries(S.days).forEach(([k,d]) => { if(d.dsign && d.dsign.length && k <= m.T && diff(k, m.T) <= 14){ dsDays++; d.dsign.forEach(x => ds[x] = (ds[x]||0) + 1); } });
+  if(dsDays){
+    const hint = [];
+    if(ds["ba-dau"]) hint.push("vón cục như bã đậu kèm ngứa hay gặp khi nhiễm nấm");
+    if(ds["xam"] || ds["mui-hoi"]) hint.push("xám, loãng, mùi tanh hay gặp khi viêm âm đạo do vi khuẩn");
+    if(ds["vang-xanh"] || ds["co-bot"]) hint.push("vàng xanh, có bọt có thể do trùng roi hoặc bệnh lây qua đường tình dục");
+    if(ds["lan-mau"]) hint.push("ra máu ngoài kỳ kinh cần được khám để tìm nguyên nhân");
+    if(ds["rat"]) hint.push("rát buốt khi tiểu có thể là viêm đường tiết niệu");
+    flags.push(["Khí hư có dấu hiệu lạ", `${dsDays} ngày trong 2 tuần qua: ${Object.keys(ds).map(x => LABEL[x].toLowerCase()).join(", ")}. ${hint.length ? cap(hint.join("; ")) + ". " : ""}Chỉ bác sĩ mới xác định được nguyên nhân, nên đi khám phụ khoa và đừng tự thụt rửa hay mua thuốc đặt.`]);
+  }
   const pos = pregSince(m);
   if(pos) flags.push(["Que thử thai dương tính", `Ngày ${dm(pos)} có ghi que thử dương tính. Nên đi khám hoặc xét nghiệm máu để xác nhận. Dự đoán kỳ kinh tạm thời không còn đúng.`]);
   return flags;
@@ -1357,6 +1430,36 @@ function habitHTML(m){
   return `<section><div class="sec-h"><h2>30 ngày qua</h2><span class="aside">${h.logged} ngày có ghi</span></div>
     <div class="facts">${rows.map(r => `<div class="fact"><span class="k">${r[0]}</span><span class="v">${r[1]}<small>${r[2]}</small></span></div>`).join("")}</div></section>`;
 }
+// How her logged discharge types fall across cycle days, pooled over every recorded cycle.
+function dischPattern(m){
+  const L = Math.min(Math.max(m.avgLen, 28), 40), grid = {}, cyc = m.eps.map((e,i) => ({ start:e.start, next: m.eps[i+1] ? m.eps[i+1].start : m.nextStart }));
+  let n = 0;
+  DISCH.forEach(([v]) => grid[v] = new Array(L).fill(0));
+  cyc.forEach(c => { for(let k = c.start; k < c.next && k <= m.T; k = addDays(k,1)){
+    const d = S.days[k], i = diff(c.start, k); if(!d || !d.disch || i >= L) continue;
+    grid[d.disch][i]++; n++;
+  }});
+  return { L, grid, n, max:Math.max(1, ...Object.values(grid).flat()) };
+}
+function dischHTML(m){
+  const her = esc(S.profile.her), p = dischPattern(m);
+  if(p.n < 5) return `<section><div class="sec-h"><h2>Khí hư của ${her} theo chu kỳ</h2></div>
+    <p class="muted">Ghi khí hư ở mục Ghi nhận thêm ${5 - p.n} ngày nữa, May sẽ vẽ ra khí hư của ${her} thay đổi thế nào qua từng ngày của chu kỳ.</p></section>`;
+  const lvl = c => c ? Math.min(3, Math.ceil(c / p.max * 3)) : 0;
+  let axis = "";
+  for(let i = 1; i <= p.L; i++) axis += `<i class="${i <= m.avgPer ? "p" : i === m.ovCd ? "o" : ""}"></i>`;
+  const rows = DISCH.map(([v,t]) => `<div class="drow"><span class="dl">${t}</span><span class="dcells">${p.grid[v].map((c,i) => `<i class="l${lvl(c)}" title="Ngày ${i+1}: ${c} lần"></i>`).join("")}</span></div>`).join("");
+  return `<section><div class="sec-h"><h2>Khí hư của ${her} theo chu kỳ</h2><span class="aside">${p.n} ngày có ghi</span></div>
+    <div class="dmap">
+      <div class="drow"><span class="dl small muted">Ngày</span><span class="dcells axis">${axis}</span></div>
+      ${rows}
+      <div class="drow"><span></span><span class="dscale"><span>1</span><span>${Math.round(p.L/2)}</span><span>${p.L}</span></span></div>
+    </div>
+    <div class="cal-legend" style="margin-top:10px"><span><i class="sw per" style="border-radius:3px"></i>Hành kinh</span><span><i class="sw" style="background:var(--ovul);border-radius:3px"></i>Rụng trứng ước tính</span><span><i class="sw" style="background:var(--luteal);border-radius:3px"></i>Ô đậm = ghi nhiều lần</span></div>
+    <p class="small muted" style="margin-top:6px">Thường khí hư trong, dai sẽ dồn quanh ngày rụng trứng. Nếu của ${her} cũng vậy, đó là dấu hiệu chu kỳ đang rụng trứng đều.</p>
+  </section>`;
+}
+const learnHTML = l => `<details class="learn"><summary>${l[0]}</summary><div class="body">${l[1]}</div></details>`;
 function viewInsight(m){
   if(m.empty) return `<div class="view"><div class="sec-h"><h2>Nhìn lại</h2></div><p class="muted">Ghi lại kỳ kinh đầu tiên ở tab Hôm nay để May bắt đầu học chu kỳ của ${esc(S.profile.her)}.</p></div>`;
   const her = esc(S.profile.her);
@@ -1401,14 +1504,27 @@ function viewInsight(m){
       ${patRows ? `<div class="pattern">${patRows}</div><p class="small muted" style="margin-top:8px">Tỉ lệ số ngày có ghi nhận triệu chứng hoặc tâm trạng đó trong từng giai đoạn. Ghi càng đều, lời nhắn càng hiểu ${her}.</p>`
         : `<p class="muted">Ghi triệu chứng và tâm trạng vài tuần, May sẽ tìm ra quy luật riêng của ${her}, ví dụ hay đau đầu trước kỳ kinh hay hay vui vẻ sau kỳ.</p>`}
     </section>
+    ${dischHTML(m)}
     ${habitHTML(m)}
     <section><div class="sec-h"><h2>Báo cáo cho bác sĩ</h2></div>
       <div class="stack"><p class="small muted">Tóm tắt các chu kỳ, triệu chứng hay gặp và điều cần lưu ý, để mang theo khi đi khám.</p>
       <button class="btn btn-ink" id="open-report">Xem báo cáo</button></div>
     </section>
-    <section><div class="sec-h"><h2>Hiểu về hoóc-môn</h2></div><div class="learn-stack">${LEARN.map(l => `<details class="learn"><summary>${l[0]}</summary><div class="body">${l[1]}</div></details>`).join("")}</div></section>
+    <section><div class="sec-h"><h2>Sức khỏe sinh sản</h2></div><div class="learn-stack">${LEARN_RH.map(learnHTML).join("")}</div></section>
+    <section><div class="sec-h"><h2>Hiểu về hoóc-môn</h2></div><div class="learn-stack">${LEARN.map(learnHTML).join("")}</div></section>
   </div>`;
 }
+const LEARN_RH = [
+  ["Khí hư thay đổi thế nào qua chu kỳ", `<p>Khí hư là dịch do cổ tử cung và thành âm đạo tiết ra để giữ ẩm, làm sạch và chống vi khuẩn. Lượng và độ đặc thay đổi theo estrogen và progesterone:</p><p><b>Hành kinh:</b> máu che mất khí hư.</p><p><b>Sau kỳ kinh:</b> khô hoặc ít, trắng đục, dính.</p><p><b>Trước rụng trứng:</b> nhiều dần, như kem, trắng sữa, rồi ướt và trong hơn.</p><p><b>Quanh rụng trứng:</b> trong, trơn, kéo sợi 3–5 cm như lòng trắng trứng. Đây là những ngày dễ thụ thai nhất.</p><p><b>Sau rụng trứng:</b> progesterone làm khí hư đặc, đục, ít lại. Khô trên quần lót có thể ngả vàng nhạt.</p><p><b>Cách xem:</b> lau bằng giấy trước khi đi tiểu, nhìn màu và kéo giữa hai ngón tay xem dính, như kem hay kéo sợi. Ghi vào May mỗi ngày để thấy quy luật riêng.</p>`],
+  ["Khí hư bất thường: dấu hiệu và nguyên nhân", `<p>Khí hư bình thường có màu trong hoặc trắng, mùi nhẹ hoặc không mùi, không gây ngứa, rát. Nên đi khám khi thấy:</p><p><b>Trắng, vón cục như bã đậu, ngứa rát:</b> hay gặp khi nhiễm nấm Candida, nhất là sau dùng kháng sinh, khi mang thai hoặc mặc đồ bí.</p><p><b>Xám, loãng, mùi tanh như cá, rõ hơn sau quan hệ:</b> hay gặp khi viêm âm đạo do vi khuẩn (mất cân bằng lợi khuẩn).</p><p><b>Vàng xanh, có bọt, mùi hôi:</b> có thể do trùng roi, lây qua quan hệ, cần điều trị cả hai người.</p><p><b>Như mủ, ra máu sau quan hệ, đau bụng dưới:</b> có thể do lậu, chlamydia hoặc viêm cổ tử cung.</p><p>Các bệnh này có triệu chứng giống nhau nên cần bác sĩ soi tươi khí hư để chẩn đoán. Đừng tự mua thuốc đặt, nhất là khi bị lần đầu hoặc tái lại nhiều lần.</p>`],
+  ["Vệ sinh vùng kín đúng cách", `<p>Âm đạo tự làm sạch và giữ độ pH khoảng 3,8–4,5 nhờ lợi khuẩn. Rửa quá kỹ lại làm mất lợi khuẩn, dễ viêm hơn.</p><p><b>Nên:</b> rửa bên ngoài bằng nước sạch, dùng dung dịch vệ sinh dịu nhẹ tối đa 1 lần mỗi ngày; lau từ trước ra sau; mặc quần lót cotton, thay khi ẩm; đi tiểu sau khi quan hệ để giảm viêm đường tiết niệu.</p><p><b>Không nên:</b> thụt rửa sâu trong âm đạo; dùng xà phòng thơm, nước hoa vùng kín; dùng băng vệ sinh hằng ngày liên tục cả ngày.</p><p><b>Trong kỳ kinh:</b> thay băng mỗi 4–6 giờ, tampon tối đa 8 giờ, cốc nguyệt san đổ và rửa tối đa mỗi 12 giờ.</p>`],
+  ["Khám phụ khoa và tầm soát ung thư cổ tử cung", `<p><b>Khám phụ khoa:</b> nên khám mỗi năm một lần, kể cả khi thấy khỏe, và khám sớm hơn khi có dấu hiệu lạ.</p><p><b>Tầm soát ung thư cổ tử cung</b> (theo WHO và ACOG): từ 21 tuổi làm xét nghiệm Pap mỗi 3 năm; từ 30 đến 65 tuổi có thể làm Pap kèm xét nghiệm HPV mỗi 5 năm. Ung thư cổ tử cung phát hiện sớm gần như chữa khỏi hoàn toàn.</p><p><b>Vắc-xin HPV:</b> ngừa các chủng HPV gây phần lớn ung thư cổ tử cung. Ở Việt Nam đang tiêm cho nữ từ 9 đến 45 tuổi, tiêm càng sớm càng hiệu quả, nhưng đã quan hệ rồi vẫn nên tiêm.</p><p><b>Mang theo khi đi khám:</b> báo cáo chu kỳ trong tab Nhìn lại, ngày đầu kỳ kinh gần nhất, và danh sách thuốc đang dùng.</p>`],
+  ["Bệnh lây qua đường tình dục", `<p>Chlamydia, lậu, giang mai, HPV, herpes, HIV, viêm gan B có thể lây qua quan hệ. Nhiều bệnh <b>không có triệu chứng</b> trong thời gian dài nhưng vẫn gây viêm vùng chậu, tắc vòi trứng và vô sinh.</p><p><b>Phòng:</b> dùng bao cao su mỗi lần quan hệ; tiêm vắc-xin viêm gan B và HPV; xét nghiệm định kỳ khi có bạn tình mới.</p><p>Nếu một người bị, <b>cả hai cùng điều trị</b> và kiêng quan hệ tới khi khỏi, để không lây đi lây lại.</p>`],
+  ["Buồng trứng đa nang (PCOS)", `<p>Khoảng 1 trong 10 phụ nữ bị PCOS. Buồng trứng không rụng trứng đều, nội tiết nam (androgen) tăng nhẹ.</p><p><b>Dấu hiệu:</b> chu kỳ dài hơn 35 ngày hoặc thất thường, ít khi thấy những ngày khí hư trong, kéo sợi; nổi mụn, lông mọc nhiều; tăng cân, khó giảm cân; rụng tóc.</p><p>PCOS điều trị được bằng thay đổi lối sống và thuốc. Nếu muốn có con, bác sĩ có thể hỗ trợ rụng trứng. Ghi chu kỳ trong May giúp bác sĩ chẩn đoán nhanh hơn.</p>`],
+  ["Lạc nội mạc tử cung", `<p>Mô giống niêm mạc tử cung mọc ở ngoài tử cung (buồng trứng, vòi trứng, vùng chậu), vẫn chảy máu theo chu kỳ nên gây viêm và đau. Gặp ở khoảng 1 trong 10 phụ nữ, thường bị chẩn đoán muộn nhiều năm.</p><p><b>Dấu hiệu:</b> đau bụng kinh dữ dội, ngày càng nặng, uống thuốc giảm đau không đỡ; đau khi quan hệ, khi đi tiêu; khó có thai.</p><p>Đau kinh nhiều <b>không phải chuyện phải chịu đựng</b>. Hãy ghi lại mức đau trong May và đi khám.</p>`],
+  ["Chuẩn bị khi muốn có con", `<p><b>Axit folic 400 mcg mỗi ngày</b>, bắt đầu ít nhất 1 tháng (tốt nhất 3 tháng) trước khi có thai, giúp giảm nguy cơ dị tật ống thần kinh cho em bé.</p><p><b>Khám tiền thai:</b> kiểm tra thiếu máu, tuyến giáp, viêm gan B, rubella, bệnh lây qua đường tình dục, răng miệng. Tiêm phòng rubella thì chờ ít nhất 1 tháng mới có thai.</p><p><b>Thời điểm:</b> quan hệ đều 2–3 ngày một lần, nhất là trong những ngày khí hư trong, kéo sợi. Khoảng 8 trên 10 cặp có thai trong 1 năm. Sau 12 tháng (hoặc 6 tháng nếu trên 35 tuổi) chưa có thai thì cả hai nên đi khám.</p><p>Bỏ thuốc lá, hạn chế rượu bia, giữ cân nặng hợp lý ở cả hai người.</p>`],
+  ["Tự khám ngực mỗi tháng", `<p>Chọn ngày thứ 3–5 sau khi sạch kinh, lúc ngực mềm nhất.</p><p><b>Nhìn</b> trước gương: hai bên có cân đối, da có lõm, nhăn như vỏ cam, núm vú có tụt vào hay chảy dịch không.</p><p><b>Sờ</b> bằng ba ngón tay giữa, ấn nhẹ rồi mạnh theo vòng tròn, đi hết ngực và lên tới nách.</p><p>Thấy cục cứng, không đau, không di động, hoặc thay đổi kéo dài qua một kỳ kinh thì đi khám. Phần lớn khối u ở ngực là lành tính, nhưng nên kiểm tra sớm.</p>`]
+];
 const LEARN = [
   ["Bốn giai đoạn của chu kỳ", `<p><b>Hành kinh</b> (ngày 1–5): estrogen và progesterone thấp nhất, niêm mạc tử cung bong ra.</p><p><b>Nang trứng</b> (từ ngày 1 tới rụng trứng): FSH kích thích nang trứng, estrogen tăng dần, tâm trạng và năng lượng đi lên.</p><p><b>Rụng trứng</b> (khoảng 12–16 ngày trước kỳ sau): LH tăng vọt, trứng rụng trong 24–36 giờ.</p><p><b>Hoàng thể</b> (khoảng 14 ngày cuối): progesterone tăng rồi giảm. Những ngày cuối là lúc dễ bị tiền kinh nguyệt (PMS).</p>`],
   ["Estrogen", `<p>Do nang trứng tiết ra, tăng dần trong nửa đầu chu kỳ và đạt đỉnh ngay trước khi rụng trứng, sau đó có một đợt tăng nhỏ giữa pha hoàng thể.</p><p>Estrogen đi cùng serotonin và dopamine, nên khi cao thường thấy vui, nhiều năng lượng, da đẹp. Khi tụt nhanh trước kỳ kinh, tâm trạng dễ chùng xuống.</p>`],
@@ -1416,7 +1532,6 @@ const LEARN = [
   ["LH, FSH và testosterone", `<p><b>FSH</b> từ tuyến yên giúp nang trứng lớn lên đầu chu kỳ.</p><p><b>LH</b> tăng vọt 24–36 giờ trước khi rụng trứng. Que thử rụng trứng đo chính hoóc-môn này. Ghi kết quả que thử vào May để dự đoán chính xác hơn.</p><p><b>Testosterone</b> có lượng nhỏ, nhích lên quanh ngày rụng trứng, liên quan tới ham muốn và sự tự tin.</p>`],
   ["Tiền kinh nguyệt (PMS)", `<p>Khoảng 5–7 ngày trước kỳ kinh, estrogen và progesterone cùng giảm nhanh. Nhiều người thấy cáu gắt, nhạy cảm, buồn, thèm ngọt, đầy bụng, nổi mụn, căng ngực.</p><p>Giúp giảm: ngủ đủ, vận động nhẹ, bớt muối, đường, cà phê, bổ sung magie và canxi. Nếu cảm xúc nặng tới mức ảnh hưởng công việc và các mối quan hệ (PMDD), nên gặp bác sĩ.</p>`],
   ["Đau bụng kinh thế nào là bất thường", `<p>Đau quặn bụng dưới 1–3 ngày đầu kỳ là bình thường, do prostaglandin làm tử cung co bóp. Chườm ấm, vận động nhẹ và thuốc giảm đau như ibuprofen thường đỡ.</p><p><b>Nên đi khám</b> nếu: đau tới mức phải nghỉ học, nghỉ làm; uống thuốc không đỡ; đau ngày càng nặng qua các tháng; đau khi quan hệ hoặc đau cả ngoài kỳ kinh. Đây có thể là dấu hiệu lạc nội mạc tử cung, u xơ hoặc viêm nhiễm.</p>`],
-  ["Dịch tiết nói gì về chu kỳ", `<p><b>Sau kỳ kinh:</b> thường khô hoặc ít dịch.</p><p><b>Trước rụng trứng:</b> dịch tăng, chuyển từ dính sang như kem.</p><p><b>Quanh rụng trứng:</b> trong, trơn, kéo dài được như lòng trắng trứng. Đây là lúc dễ thụ thai nhất.</p><p><b>Sau rụng trứng:</b> progesterone làm dịch đặc và ít lại.</p><p>Nên đi khám nếu dịch có màu xanh, xám, vón cục như bã đậu, có mùi hôi hoặc kèm ngứa, rát.</p>`],
   ["Thuốc tránh thai và chu kỳ", `<p>Thuốc tránh thai kết hợp ngăn rụng trứng, nên khi uống thuốc sẽ không có đỉnh LH và không có cửa sổ thụ thai tự nhiên. Ra máu trong tuần nghỉ thuốc là ra máu do ngưng thuốc.</p><p>Uống cùng một giờ mỗi ngày. Quên 1 viên thì uống ngay khi nhớ ra. Quên từ 2 viên, đọc hướng dẫn trong hộp và dùng thêm bao cao su 7 ngày.</p><p>Sau khi ngưng thuốc, chu kỳ có thể mất vài tháng để đều lại.</p>`],
   ["Khi nào nên thử thai", `<p>Que thử thai đo hoóc-môn hCG, chính xác nhất từ ngày trễ kinh trở đi. Thử bằng nước tiểu buổi sáng đầu tiên.</p><p>Âm tính mà vẫn trễ kinh, thử lại sau 3–5 ngày. Dương tính thì nên đi khám để siêu âm và xác nhận.</p><p>Trễ kinh không phải lúc nào cũng do có thai: căng thẳng, thiếu ngủ, ốm, giảm cân nhanh, tập nặng cũng làm rụng trứng muộn.</p>`],
   ["May dự đoán như thế nào", `<p>Ngày tới tháng = ngày đầu kỳ gần nhất + độ dài chu kỳ trung bình có trọng số của tối đa 6 chu kỳ gần nhất (chu kỳ mới tính nặng hơn).</p><p>Ngày rụng trứng = ngày tới tháng dự kiến trừ độ dài pha hoàng thể (mặc định 14 ngày). Nếu có nhiệt độ cơ thể hoặc que thử LH dương tính, May dùng dữ liệu đó thay cho ước tính, và học độ dài pha hoàng thể riêng của ${esc(S.profile.her)}.</p><p>Cửa sổ thụ thai = 5 ngày trước tới 1 ngày sau rụng trứng, vì tinh trùng sống được tới 5 ngày.</p>`]
@@ -1611,7 +1726,8 @@ function sheetHTML(k){
     <div class="blk"><h3>Ham muốn</h3>${one("libido", LIBIDO, d.libido)}</div>
     <div class="blk"><h3>Giấc ngủ đêm qua</h3>${one("sleep", SLEEP, d.sleep)}</div>
     <div class="blk"><h3>Uống nước</h3><div class="temp"><div class="stepper" id="sh-water"><button type="button" data-d="-1" aria-label="Bớt một cốc">−</button><output id="sh-water-n">${d.water||0}</output><button type="button" data-d="1" aria-label="Thêm một cốc">+</button></div><span class="muted small">cốc 250 ml · nên 6–8 cốc</span></div></div>
-    <div class="blk"><h3>Dịch tiết</h3>${one("disch", DISCH, d.disch)}</div>
+    <div class="blk"><h3>Khí hư</h3>${one("disch", DISCH, d.disch)}
+      <p class="small muted" style="margin:10px 0 6px">Có gì lạ không? Bỏ qua nếu bình thường.</p>${many("dsign", DSIGN, d.dsign)}</div>
     <div class="blk"><h3>Nhiệt độ cơ thể buổi sáng</h3><div class="temp"><input id="sh-temp" type="text" inputmode="decimal" placeholder="36,45" value="${d.temp ? String(d.temp).replace(".",",") : ""}"><span class="muted small">°C · đo ngay khi thức dậy</span></div></div>
     <div class="blk"><h3>Que thử rụng trứng</h3>${one("lh", LH, d.lh)}</div>
     <div class="blk"><h3>Que thử thai</h3>${one("preg", PREG, d.preg)}</div>
@@ -2089,7 +2205,7 @@ function loadSample(){
 /* ---------- updates ---------- */
 // Home Screen apps on iPhone can keep showing a cached old copy after an update.
 // On each open, ask the server for the current page; if its BUILD differs, reload once.
-const BUILD = "2026-10-11.3";
+const BUILD = "2026-10-11.4";
 function checkUpdate(){
   if(location.protocol === "file:") return;
   try{ if(sessionStorage.getItem("may.upd") === BUILD) return; }catch(e){}
